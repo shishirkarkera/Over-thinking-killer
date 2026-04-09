@@ -350,7 +350,7 @@ const CONFIG = {
   SUPABASE_URL:  'https://wnlimguvvaewortwvnzm.supabase.co',
   // Use your PUBLIC Supabase key here if you want to keep the dashboard feature
   SUPABASE_KEY:  'sb_publishable_X7FXM8C-rTuHWv7_USkkKg_mS3O77Jq',
-  HOST_PASSWORD: 'choose-a-password-for-your-dashboard' 
+  HOST_PASSWORD: 'PrCuPi@21+Se' 
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -397,7 +397,7 @@ async function analyze() {
   hideError();
   setLoading(true);
   try {
-    const result = await callClaude(input, mode);
+    const result = await callGemini(input, mode);
     await saveToSupabase(input, mode, result);
     sessionCount++;
     updatePatterns(result.patterns || []);
@@ -412,29 +412,41 @@ async function analyze() {
 // ═══════════════════════════════════════════════════════════
 //  CLAUDE API
 // ═══════════════════════════════════════════════════════════
-async function callClaude(thought, currentMode) {
+async function callGemini(thought, currentMode) {
   try {
     const res = await fetch('/.netlify/functions/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ thought, mode: currentMode })
+      body: JSON.stringify({ 
+        thought: thought, 
+        mode: currentMode 
+      })
     });
 
-    if (!res.ok) throw new Error('Backend failed');
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("Backend Error Detail:", errorText);
+      throw new Error('Backend failed. Check logs.');
+    }
 
     const data = await res.json();
     
-    // Extract the text from the first content block
-    let text = data.content[0].text;
+    // Gemini data comes back in the 'text' property we defined in analyze.js
+    let text = data.text;
     
-    // Clean up any markdown formatting Claude might have added
-    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    // Cleaning logic: finds the first { and the last } 
+    // This stops "Invalid Format" errors if Gemini adds chatter.
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
     
-    return JSON.parse(text);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    } else {
+      throw new Error("No JSON found in AI response");
+    }
+    
   } catch (e) {
-    console.error("Parsing Error:", e);
-    // This is the error you are seeing
-    throw new Error('AI returned invalid format. Try re-phrasing.');
+    console.error("Critical Parsing Error:", e);
+    throw new Error('Analysis failed: AI sent back unreadable data.');
   }
 }
 // ═══════════════════════════════════════════════════════════

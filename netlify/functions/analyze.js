@@ -1,7 +1,5 @@
-// No need for 'require(node-fetch)' as modern Netlify has it built-in.
-
 exports.handler = async (event) => {
-  // Only allow POST requests (security best practice)
+  // Only allow POST requests for security
   if (event.httpMethod !== "POST") {
     return { 
       statusCode: 405, 
@@ -10,44 +8,45 @@ exports.handler = async (event) => {
   }
 
   try {
-    // 1. Parse the incoming data from your website
     const { thought, mode } = JSON.parse(event.body);
 
-    // 2. Set the "Personality" of the AI based on the mode selected
+    // Set the AI logic based on the user's selection
     const brutalInstruction = mode === 'brutal'
       ? 'Use extremely direct, harsh tone. Call out self-deception bluntly. No softening.'
       : 'Be direct and logical. Firm but not unkind.';
 
-    const systemPrompt = `You are an Overthinking Killer — a thinking correction tool. Transform messy anxious thoughts into structured clarity and action. NOT a comfort tool.
+    const systemPrompt = `You are an Overthinking Killer. Transform messy thoughts into structured clarity.
     
     ${brutalInstruction}
     
-    Respond ONLY in valid JSON format (no markdown, no backticks).
+    CRITICAL: You must respond ONLY with a raw JSON object. 
+    Do NOT include backticks, markdown formatting, or any introductory text.
     
+    Expected JSON Structure:
     {
-      "situation": "1-2 sentence condensed summary",
+      "situation": "Short summary",
       "control": {
-        "yours": ["what you control 1", "what you control 2"],
-        "notYours": ["what you don't control 1", "what you don't control 2"]
+        "yours": ["item 1", "item 2"],
+        "notYours": ["item 1", "item 2"]
       },
-      "worstCase": "Realistic worst case in 1-2 sentences.",
+      "worstCase": "Realistic worst case scenario",
       "realityCheck": [
-        { "tag": "assumption", "text": "specific insight" },
-        { "tag": "bias", "text": "specific insight" }
+        { "tag": "assumption", "text": "insight" },
+        { "tag": "bias", "text": "insight" }
       ],
       "actions": [
-        { "step": "Concrete action", "why": "brief reason" }
+        { "step": "Concrete action", "why": "reasoning" }
       ],
-      "brutalTruth": "harsh honest statement (only if brutal mode)",
-      "patterns": ["relationship"]
+      "brutalTruth": "Direct honest statement (required if mode is brutal)",
+      "patterns": ["relationship", "career", "fear", "assumption", "other"]
     }`;
 
-    // 3. Securely talk to Anthropic using the key hidden in Netlify variables
+    // Talk to Anthropic securely using the Environment Variable
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_KEY, // Pulls from Netlify Environment Variables
+        'x-api-key': process.env.ANTHROPIC_KEY, // Hidden in Netlify Settings
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
@@ -58,29 +57,23 @@ exports.handler = async (event) => {
       })
     });
 
-    // 4. Handle API errors (like if the key is wrong or expired)
     if (!response.ok) {
       const errorData = await response.json();
       return {
         statusCode: response.status,
-        body: JSON.stringify({ error: errorData.error?.message || "Anthropic API Error" })
+        body: JSON.stringify({ error: errorData.error?.message || "AI API Error" })
       };
     }
 
     const data = await response.json();
 
-    // 5. Send the AI result back to your website
     return {
       statusCode: 200,
-      headers: { 
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*" // Helps prevent CORS issues
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     };
 
   } catch (error) {
-    // 6. Generic error catcher (logs to Netlify Function Logs)
     console.error("Function Error:", error);
     return { 
       statusCode: 500, 

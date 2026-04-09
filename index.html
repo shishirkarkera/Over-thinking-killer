@@ -417,26 +417,26 @@ async function callClaude(thought, currentMode) {
     const res = await fetch('/.netlify/functions/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        thought: thought, 
-        mode: currentMode 
-      })
+      body: JSON.stringify({ thought, mode: currentMode })
     });
 
-    if (!res.ok) throw new Error('Backend failed. Check logs.');
+    if (!res.ok) throw new Error('Backend failed');
 
     const data = await res.json();
     
-    // Anthropic's response is in the 'content' array
-    const text = data.content[0].text.replace(/```json|```/g, '').trim();
+    // Extract the text from the first content block
+    let text = data.content[0].text;
+    
+    // Clean up any markdown formatting Claude might have added
+    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
     
     return JSON.parse(text);
   } catch (e) {
-    console.error(e);
+    console.error("Parsing Error:", e);
+    // This is the error you are seeing
     throw new Error('AI returned invalid format. Try re-phrasing.');
   }
 }
-
 // ═══════════════════════════════════════════════════════════
 //  SUPABASE — Save thought
 // ═══════════════════════════════════════════════════════════

@@ -417,35 +417,28 @@ async function callGemini(thought, currentMode) {
     const res = await fetch('/.netlify/functions/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        thought: thought, 
-        mode: currentMode 
-      })
+      body: JSON.stringify({ thought, mode: currentMode })
     });
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.error("Backend Error Detail:", errorText);
-      throw new Error('Backend failed. Check logs.');
-    }
+    if (!res.ok) throw new Error('Backend failed');
 
     const data = await res.json();
-    
-    // Gemini data comes back in the 'text' property we defined in analyze.js
-    let text = data.text;
-    
-    // Cleaning logic: finds the first { and the last } 
-    // This stops "Invalid Format" errors if Gemini adds chatter.
+    let text = data.text; 
+
+    // This logic finds the first '{' and the last '}'
+    // and ignores any text or markdown Gemini added outside of them.
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     
     if (jsonMatch) {
+      // We parse ONLY the JSON part
       return JSON.parse(jsonMatch[0]);
     } else {
-      throw new Error("No JSON found in AI response");
+      console.error("Raw AI response was:", text);
+      throw new Error("No JSON found");
     }
     
   } catch (e) {
-    console.error("Critical Parsing Error:", e);
+    console.error("Parsing Error:", e);
     throw new Error('Analysis failed: AI sent back unreadable data.');
   }
 }

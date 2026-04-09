@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OVERTHINKING KILLER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #2a2a2a;
+    --accent: #e8ff47;
+    --accent2: #ff4747;
+    --text: #e8e8e8;
+    --text-dim: #888;
+    --text-muted: #444;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --display: 'Bebas Neue', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── HEADER ── */
+  header { padding: 48px 0 32px; border-bottom: 1px solid var(--border); animation: fadeDown 0.6s ease both; }
+  .header-inner { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .logo { font-family: var(--display); font-size: clamp(44px, 8vw, 80px); letter-spacing: 2px; line-height: 0.9; }
+  .logo span { color: var(--accent); display: block; }
+  .tagline { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 12px; }
+  .version-badge { font-family: var(--mono); font-size: 10px; color: var(--accent); border: 1px solid var(--accent); padding: 4px 8px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; white-space: nowrap; }
+
+  /* ── HOST LINK ── */
+  .host-link { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; padding: 4px 0; border-bottom: 1px solid transparent; transition: all 0.15s; }
+  .host-link:hover { color: var(--text-dim); border-bottom-color: var(--text-muted); }
+
+  /* ── INPUT SECTION ── */
+  .input-section { padding: 48px 0 0; animation: fadeUp 0.7s ease 0.1s both; }
+  .section-label { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .section-label::before { content: '//'; color: var(--accent); }
+  .input-prompt { font-family: var(--sans); font-size: 18px; font-weight: 300; color: var(--text-dim); margin-bottom: 20px; font-style: italic; line-height: 1.5; }
+  .input-prompt strong { color: var(--text); font-style: normal; font-weight: 600; }
+
+  .input-wrapper { position: relative; border: 1px solid var(--border); background: var(--surface); transition: border-color 0.2s; }
+  .input-wrapper:focus-within { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 32px rgba(232,255,71,0.04); }
+  .input-corner { position: absolute; width: 8px; height: 8px; border-color: var(--accent); border-style: solid; opacity: 0; transition: opacity 0.2s; }
+  .input-wrapper:focus-within .input-corner { opacity: 1; }
+  .input-corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .input-corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+  .input-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+  .input-corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  textarea { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-family: var(--sans); font-size: 16px; font-weight: 300; line-height: 1.7; padding: 24px; resize: none; min-height: 160px; caret-color: var(--accent); }
+  textarea::placeholder { color: var(--text-muted); font-style: italic; }
+
+  .input-footer { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-top: 1px solid var(--border); }
+  .char-count { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+
+  .mode-selector { display: flex; background: var(--bg); border: 1px solid var(--border); padding: 3px; gap: 0; }
+  .mode-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+  .mode-btn.active { background: var(--accent2); color: #000; font-weight: 700; }
+  .mode-btn:not(.active):hover { color: var(--text); }
+
+  /* ── ANALYZE BTN ── */
+  .analyze-row { margin-top: 20px; display: flex; align-items: center; gap: 16px; animation: fadeUp 0.7s ease 0.2s both; }
+  .analyze-btn { font-family: var(--display); font-size: 22px; letter-spacing: 3px; padding: 16px 40px; background: var(--accent); color: #000; border: none; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; flex-shrink: 0; }
+  .analyze-btn::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.15); transform: translateX(-100%); transition: transform 0.3s ease; }
+  .analyze-btn:hover::before { transform: translateX(0); }
+  .analyze-btn:active { transform: scale(0.98); }
+  .analyze-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .analyze-hint { font-family: var(--mono); font-size: 11px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── LOADING ── */
+  .loading-bar { height: 2px; background: var(--border); margin: 32px 0; position: relative; display: none; }
+  .loading-bar.active { display: block; }
+  .loading-bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 40%; background: var(--accent); animation: loadSlide 1.2s ease-in-out infinite; }
+  @keyframes loadSlide { 0% { left: -40%; } 100% { left: 100%; } }
+  .loading-text { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-align: center; display: none; animation: blink 1s step-end infinite; margin-bottom: 32px; }
+  .loading-text.active { display: block; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* ── OUTPUT ── */
+  .output-section { margin-top: 48px; padding-bottom: 80px; display: none; }
+  .output-section.visible { display: block; }
+  .output-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .output-title { font-family: var(--display); font-size: 32px; letter-spacing: 2px; color: var(--accent); }
+  .output-meta { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-align: right; line-height: 1.8; }
+  .brutal-tag { display: inline-block; background: var(--accent2); color: #fff; padding: 2px 6px; font-size: 9px; letter-spacing: 0.1em; vertical-align: middle; margin-left: 6px; }
+
+  /* ── CARDS ── */
+  .cards-grid { display: flex; flex-direction: column; gap: 3px; }
+  .card { background: var(--surface); border-left: 3px solid transparent; overflow: hidden; opacity: 0; transform: translateX(-16px); animation: slideIn 0.4s ease forwards; }
+  .card:nth-child(1) { animation-delay: 0.05s; border-left-color: #888; }
+  .card:nth-child(2) { animation-delay: 0.15s; border-left-color: #5599ff; }
+  .card:nth-child(3) { animation-delay: 0.25s; border-left-color: var(--accent2); }
+  .card:nth-child(4) { animation-delay: 0.35s; border-left-color: #ff9f40; }
+  .card:nth-child(5) { animation-delay: 0.45s; border-left-color: var(--accent); }
+  @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+
+  .card-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: var(--surface2); cursor: pointer; user-select: none; transition: background 0.15s; }
+  .card-header:hover { background: #222; }
+  .card-num { font-family: var(--display); font-size: 28px; color: var(--text-muted); line-height: 1; flex-shrink: 0; }
+  .card-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); flex: 1; }
+  .card-toggle { font-family: var(--mono); font-size: 14px; color: var(--text-muted); transition: transform 0.2s; }
+  .card.collapsed .card-toggle { transform: rotate(-90deg); }
+  .card-body { padding: 20px 20px 20px 60px; border-top: 1px solid var(--border); }
+  .card.collapsed .card-body { display: none; }
+
+  .situation-text { font-size: 17px; font-weight: 600; line-height: 1.5; }
+  .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .control-col { padding: 14px; border: 1px solid var(--border); }
+  .control-col-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; }
+  .control-col.yours .control-col-label { color: #5599ff; }
+  .control-col.theirs .control-col-label { color: var(--text-muted); }
+  .control-items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .control-items li { font-size: 14px; font-weight: 300; color: var(--text-dim); padding-left: 14px; position: relative; line-height: 1.4; }
+  .control-col.yours .control-items li::before { content: '→'; position: absolute; left: 0; color: #5599ff; font-size: 12px; }
+  .control-col.theirs .control-items li::before { content: '✕'; position: absolute; left: 0; color: var(--text-muted); font-size: 10px; top: 2px; }
+  .worst-case-text { font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--text-dim); border-left: 2px solid var(--accent2); padding-left: 16px; font-style: italic; }
+  .reality-items { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .reality-item { display: flex; gap: 12px; align-items: flex-start; }
+  .reality-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 6px; border: 1px solid; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+  .reality-tag.assumption { border-color: #ff9f40; color: #ff9f40; }
+  .reality-tag.bias { border-color: var(--accent2); color: var(--accent2); }
+  .reality-tag.fact { border-color: #5599ff; color: #5599ff; }
+  .reality-tag.pattern { border-color: #a78bfa; color: #a78bfa; }
+  .reality-text { font-size: 14px; font-weight: 300; line-height: 1.6; color: var(--text-dim); }
+  .action-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .action-item { display: flex; gap: 16px; align-items: flex-start; }
+  .action-num { font-family: var(--display); font-size: 24px; color: var(--accent); line-height: 1; flex-shrink: 0; margin-top: -2px; }
+  .action-text { font-size: 15px; font-weight: 400; line-height: 1.6; }
+  .action-text small { display: block; font-size: 12px; color: var(--text-dim); font-weight: 300; margin-top: 2px; }
+  .brutal-callout { background: rgba(255,71,71,0.06); border: 1px solid rgba(255,71,71,0.2); padding: 14px 16px; margin-top: 16px; font-size: 13px; color: #ff7070; font-weight: 300; line-height: 1.6; font-style: italic; }
+  .brutal-callout::before { content: '⚠ BRUTAL TRUTH: '; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; font-style: normal; font-weight: 700; color: var(--accent2); display: block; margin-bottom: 6px; }
+
+  /* ── PATTERN TRACKER ── */
+  .pattern-section { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .pattern-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+  .pattern-title::before { content: '// '; color: var(--accent); }
+  .pattern-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-bottom: 16px; }
+  .stat-box { background: var(--surface2); padding: 16px; text-align: center; }
+  .stat-num { font-family: var(--display); font-size: 36px; color: var(--accent); line-height: 1; display: block; }
+  .stat-label { font-family: var(--mono); font-size: 9px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; display: block; }
+  .pattern-bars { display: flex; flex-direction: column; gap: 8px; }
+  .pattern-bar-row { display: flex; align-items: center; gap: 12px; }
+  .pattern-bar-label { font-family: var(--mono); font-size: 10px; color: var(--text-muted); width: 120px; flex-shrink: 0; text-transform: uppercase; }
+  .pattern-bar-track { flex: 1; height: 4px; background: var(--border); position: relative; overflow: hidden; }
+  .pattern-bar-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); transition: width 0.8s ease; }
+  .pattern-bar-count { font-family: var(--mono); font-size: 11px; color: var(--text-dim); width: 20px; text-align: right; flex-shrink: 0; }
+
+  /* ── ERROR ── */
+  .error-box { padding: 20px; background: rgba(255,71,71,0.05); border: 1px solid rgba(255,71,71,0.2); font-family: var(--mono); font-size: 12px; color: var(--accent2); line-height: 1.7; display: none; margin-top: 24px; }
+  .error-box.visible { display: block; }
+
+  /* ── RESET BTN ── */
+  .reset-btn { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 20px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; transition: all 0.15s; margin-top: 32px; }
+  .reset-btn:hover { border-color: var(--text-dim); color: var(--text); }
+
+  /* ── HOST DASHBOARD MODAL ── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; display: none; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 16px; }
+  .modal-overlay.visible { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); width: 100%; max-width: 900px; min-height: 500px; }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .modal-title { font-family: var(--display); font-size: 28px; letter-spacing: 2px; color: var(--accent); }
+  .modal-close { font-family: var(--mono); font-size: 18px; color: var(--text-muted); background: none; border: none; cursor: pointer; padding: 4px 8px; transition: color 0.15s; }
+  .modal-close:hover { color: var(--text); }
+
+  /* Login */
+  .host-login { padding: 48px 32px; display: flex; flex-direction: column; gap: 16px; max-width: 400px; }
+  .host-login-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+  .host-login-title::before { content: '// '; color: var(--accent); }
+  .host-input { background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 14px; padding: 12px 16px; outline: none; width: 100%; transition: border-color 0.15s; }
+  .host-input:focus { border-color: var(--accent); }
+  .host-login-btn { font-family: var(--display); font-size: 18px; letter-spacing: 2px; padding: 12px 24px; background: var(--accent); color: #000; border: none; cursor: pointer; transition: opacity 0.15s; align-self: flex-start; }
+  .host-login-btn:hover { opacity: 0.85; }
+  .login-error { font-family: var(--mono); font-size: 11px; color: var(--accent2); display: none; }
+  .login-error.visible { display: block; }
+
+  /* Dashboard */
+  .dashboard { display: none; padding: 24px; }
+  .dashboard.visible { display: block; }
+  .dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-bottom: 24px; }
+  .dash-stat { background: var(--surface2); padding: 16px; text-align: center; }
+  .dash-stat-num { font-family: var(--display); font-size: 32px; color: var(--accent); line-height: 1; }
+  .dash-stat-label { font-family: var(--mono); font-size: 9px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+  .thoughts-list { display: flex; flex-direction: column; gap: 3px; max-height: 500px; overflow-y: auto; }
+  .thought-row { background: var(--surface2); border-left: 3px solid var(--border); padding: 14px 16px; cursor: pointer; transition: background 0.15s; }
+  .thought-row:hover { background: #222; }
+  .thought-row.expanded { border-left-color: var(--accent); }
+  .thought-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+  .thought-time { font-family: var(--mono); font-size: 10px; color: var(--text-muted); }
+  .thought-mode-tag { font-family: var(--mono); font-size: 9px; padding: 2px 6px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .thought-mode-tag.standard { border: 1px solid var(--border); color: var(--text-muted); }
+  .thought-mode-tag.brutal { border: 1px solid var(--accent2); color: var(--accent2); }
+  .thought-preview { font-size: 14px; font-weight: 300; color: var(--text-dim); line-height: 1.5; }
+  .thought-full { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); display: none; }
+  .thought-row.expanded .thought-full { display: block; }
+  .thought-analysis { font-family: var(--mono); font-size: 11px; color: var(--text-dim); line-height: 1.8; white-space: pre-wrap; }
+  .thought-situation { font-size: 13px; color: var(--text); margin-bottom: 8px; }
+  .thought-actions-preview { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+  .thought-action-item { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+
+  .dash-refresh { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 20px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; transition: all 0.15s; margin-bottom: 16px; }
+  .dash-refresh:hover { border-color: var(--accent); color: var(--accent); }
+
+  .dash-empty { font-family: var(--mono); font-size: 12px; color: var(--text-muted); padding: 32px; text-align: center; }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--border); padding: 24px 0; display: flex; align-items: center; justify-content: space-between; margin-top: 40px; }
+  .footer-text { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; cursor: default; }
+  .footer-host { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: color 0.15s; }
+  .footer-host:hover { color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .header-inner { flex-direction: column; align-items: flex-start; }
+    .control-grid { grid-template-columns: 1fr; }
+    .pattern-stats, .dash-stats { grid-template-columns: repeat(2, 1fr); }
+    .card-body { padding: 16px; }
+    .analyze-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ HOST DASHBOARD MODAL ═══════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">HOST DASHBOARD</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <!-- Login -->
+    <div class="host-login" id="hostLogin">
+      <div class="host-login-title">Access</div>
+      <input type="password" class="host-input" id="hostPassword" placeholder="PrCuPi@21+Se" onkeydown="if(event.key==='Enter') hostLogin()">
+      <div class="login-error" id="loginError">Wrong password. Try again.</div>
+      <button class="host-login-btn" onclick="hostLogin()">ENTER</button>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+      <div class="dash-stats" id="dashStats"></div>
+      <button class="dash-refresh" onclick="loadThoughts()">↺ REFRESH</button>
+      <div class="thoughts-list" id="thoughtsList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ MAIN APP ═══════════════════════════════════ -->
+<div class="container">
+
+  <header>
+    <div class="header-inner">
+      <div>
+        <div class="logo">OVER<span>THINKING</span>KILLER</div>
+        <div class="tagline">Input messy thoughts → Output structured clarity + action</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+        <div class="version-badge">V1.0 // LIVE</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="input-section">
+    <div class="section-label">Input</div>
+    <p class="input-prompt">What's <strong>actually</strong> going on in your head right now?</p>
+    <div class="input-wrapper">
+      <div class="input-corner tl"></div><div class="input-corner tr"></div>
+      <div class="input-corner bl"></div><div class="input-corner br"></div>
+      <textarea id="thoughtInput" rows="6"
+        placeholder='Dump it all here. No judgment. "I&apos;m having anxiety atack, please help..."'></textarea>
+      <div class="input-footer">
+        <span class="char-count" id="charCount">0 characters</span>
+        <div class="mode-selector">
+          <button class="mode-btn active" data-mode="standard">Standard</button>
+          <button class="mode-btn" data-mode="brutal">Brutal</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="analyze-row">
+    <button class="analyze-btn" id="analyzeBtn">ANALYZE</button>
+    <p class="analyze-hint">Powered by AI.<br>No judgment. No "stay positive" bullshit.</p>
+  </div>
+
+  <div class="loading-bar" id="loadingBar"></div>
+  <div class="loading-text" id="loadingText">PROCESSING THOUGHT PATTERN...</div>
+  <div class="error-box" id="errorBox"></div>
+
+  <section class="output-section" id="outputSection">
+    <div class="output-header">
+      <div class="output-title">ANALYSIS</div>
+      <div class="output-meta" id="outputMeta"></div>
+    </div>
+    <div class="cards-grid" id="cardsGrid"></div>
+
+    <div class="pattern-section" id="patternSection" style="display:none">
+      <div class="pattern-title">Your Session Patterns</div>
+      <div class="pattern-stats" id="patternStats"></div>
+      <div class="pattern-bars" id="patternBars"></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetForm()">↺ ANALYZE ANOTHER THOUGHT</button>
+  </section>
+
+  <footer>
+    <div class="footer-text">Overthinking Killer // Think in systems, not spirals</div>
+    <div class="footer-host" onclick="openModal()">HOST LOGIN</div>
+  </footer>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  CONFIG — Replace placeholders with your real keys
+// ═══════════════════════════════════════════════════════════
+const CONFIG = {
+  // Key is now hidden in Netlify Environment Variables
+  ANTHROPIC_KEY: '', 
+  SUPABASE_URL:  'https://wnlimguvvaewortwvnzm.supabase.co',
+  // Use your PUBLIC Supabase key here if you want to keep the dashboard feature
+  SUPABASE_KEY:  'sb_publishable_X7FXM8C-rTuHWv7_USkkKg_mS3O77Jq',
+  HOST_PASSWORD: 'choose-a-password-for-your-dashboard' 
+};
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+let mode = 'standard';
+let sessionCount = 0;
+let patternData = { relationship: 0, career: 0, fear: 0, assumption: 0, other: 0 };
+
+// ═══════════════════════════════════════════════════════════
+//  UI INTERACTIONS
+// ═══════════════════════════════════════════════════════════
+const textarea = document.getElementById('thoughtInput');
+const charCount = document.getElementById('charCount');
+const analyzeBtn = document.getElementById('analyzeBtn');
+
+textarea.addEventListener('input', () => {
+  charCount.textContent = `${textarea.value.length} characters`;
+});
+
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    mode = btn.dataset.mode;
+  });
+});
+
+analyzeBtn.addEventListener('click', analyze);
+textarea.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) analyze(); });
+
+function toggleCard(card) {
+  card.classList.toggle('collapsed');
+  const t = card.querySelector('.card-toggle');
+  if (t) t.textContent = card.classList.contains('collapsed') ? '▾' : '▴';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  MAIN ANALYZE
+// ═══════════════════════════════════════════════════════════
+async function analyze() {
+  const input = textarea.value.trim();
+  if (!input || input.length < 10) { showError('Write at least a sentence.'); return; }
+  hideError();
+  setLoading(true);
+  try {
+    const result = await callClaude(input, mode);
+    await saveToSupabase(input, mode, result);
+    sessionCount++;
+    updatePatterns(result.patterns || []);
+    renderOutput(result, input, mode);
+  } catch (err) {
+    showError(`Analysis failed: ${err.message}`);
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CLAUDE API
+// ═══════════════════════════════════════════════════════════
+async function callClaude(thought, currentMode) {
+  try {
+    const res = await fetch('/.netlify/functions/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        thought: thought, 
+        mode: currentMode 
+      })
+    });
+
+    if (!res.ok) throw new Error('Backend failed. Check logs.');
+
+    const data = await res.json();
+    
+    // Anthropic's response is in the 'content' array
+    const text = data.content[0].text.replace(/```json|```/g, '').trim();
+    
+    return JSON.parse(text);
+  } catch (e) {
+    console.error(e);
+    throw new Error('AI returned invalid format. Try re-phrasing.');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SUPABASE — Save thought
+// ═══════════════════════════════════════════════════════════
+async function saveToSupabase(thought, currentMode, analysis) {
+  try {
+    await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/thoughts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': CONFIG.SUPABASE_KEY,
+        'Authorization': `Bearer ${CONFIG.SUPABASE_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ thought, mode: currentMode, analysis })
+    });
+  } catch (e) {
+    console.warn('Supabase save failed (non-critical):', e.message);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SUPABASE — Load thoughts (host dashboard)
+// ═══════════════════════════════════════════════════════════
+async function fetchThoughts() {
+  const res = await fetch(
+    `${CONFIG.SUPABASE_URL}/rest/v1/thoughts?select=*&order=created_at.desc&limit=100`,
+    {
+      headers: {
+        'apikey': CONFIG.SUPABASE_KEY,
+        'Authorization': `Bearer ${CONFIG.SUPABASE_KEY}`
+      }
+    }
+  );
+  if (!res.ok) throw new Error('Failed to load thoughts');
+  return res.json();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER OUTPUT
+// ═══════════════════════════════════════════════════════════
+function renderOutput(data, input, currentMode) {
+  const section = document.getElementById('outputSection');
+  const grid = document.getElementById('cardsGrid');
+  const now = new Date();
+
+  document.getElementById('outputMeta').innerHTML =
+    `${now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}<br>${input.split(/\s+/).length} words in${currentMode === 'brutal' ? ' <span class="brutal-tag">BRUTAL</span>' : ''}`;
+
+  grid.innerHTML = '';
+
+  grid.appendChild(makeCard('01', 'Situation', `<p class="situation-text">${esc(data.situation)}</p>`));
+
+  const yoursList = (data.control?.yours || []).map(i => `<li>${esc(i)}</li>`).join('');
+  const notYoursList = (data.control?.notYours || []).map(i => `<li>${esc(i)}</li>`).join('');
+  grid.appendChild(makeCard('02', "What You Control vs Don't", `
+    <div class="control-grid">
+      <div class="control-col yours"><div class="control-col-label">Yours</div><ul class="control-items">${yoursList}</ul></div>
+      <div class="control-col theirs"><div class="control-col-label">Not Yours</div><ul class="control-items">${notYoursList}</ul></div>
+    </div>`));
+
+  grid.appendChild(makeCard('03', 'Worst Case (Realistic)', `<p class="worst-case-text">${esc(data.worstCase)}</p>`));
+
+  const realityItems = (data.realityCheck || []).map(r => `
+    <li class="reality-item"><span class="reality-tag ${r.tag}">${r.tag}</span><span class="reality-text">${esc(r.text)}</span></li>`).join('');
+  let realityContent = `<ul class="reality-items">${realityItems}</ul>`;
+  if (currentMode === 'brutal' && data.brutalTruth) realityContent += `<div class="brutal-callout">${esc(data.brutalTruth)}</div>`;
+  grid.appendChild(makeCard('04', 'Reality Check', realityContent));
+
+  const actions = (data.actions || []).slice(0, 3);
+  const actionItems = actions.map((a, i) => `
+    <li class="action-item"><span class="action-num">0${i+1}</span><span class="action-text">${esc(a.step)}<small>${esc(a.why||'')}</small></span></li>`).join('');
+  grid.appendChild(makeCard('05', `Action Steps (${actions.length})`, `<ul class="action-list">${actionItems}</ul>`));
+
+  section.classList.add('visible');
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  renderPatterns();
+}
+
+function makeCard(num, label, bodyHtml) {
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.innerHTML = `
+    <div class="card-header" onclick="toggleCard(this.parentElement)">
+      <span class="card-num">${num}</span>
+      <span class="card-label">${label}</span>
+      <span class="card-toggle">▴</span>
+    </div>
+    <div class="card-body">${bodyHtml}</div>`;
+  return div;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PATTERN TRACKER
+// ═══════════════════════════════════════════════════════════
+function updatePatterns(patterns) {
+  patterns.forEach(p => { if (patternData.hasOwnProperty(p)) patternData[p]++; });
+}
+
+function renderPatterns() {
+  const total = Object.values(patternData).reduce((a, b) => a + b, 0);
+  if (total === 0) return;
+  document.getElementById('patternSection').style.display = 'block';
+
+  document.getElementById('patternStats').innerHTML = `
+    <div class="stat-box"><span class="stat-num">${sessionCount}</span><span class="stat-label">Analyses</span></div>
+    <div class="stat-box"><span class="stat-num">${patternData.relationship}</span><span class="stat-label">Relationship</span></div>
+    <div class="stat-box"><span class="stat-num">${patternData.assumption}</span><span class="stat-label">Assumptions</span></div>`;
+
+  const items = [
+    { label: 'Relationship', key: 'relationship' },
+    { label: 'Career', key: 'career' },
+    { label: 'Fear', key: 'fear' },
+    { label: 'Assumption', key: 'assumption' },
+    { label: 'Other', key: 'other' }
+  ];
+  const max = Math.max(...Object.values(patternData), 1);
+  document.getElementById('patternBars').innerHTML = items.map(item => `
+    <div class="pattern-bar-row">
+      <div class="pattern-bar-label">${item.label}</div>
+      <div class="pattern-bar-track"><div class="pattern-bar-fill" style="width:${(patternData[item.key]/max)*100}%"></div></div>
+      <div class="pattern-bar-count">${patternData[item.key]}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  HOST DASHBOARD
+// ═══════════════════════════════════════════════════════════
+function openModal() {
+  document.getElementById('modalOverlay').classList.add('visible');
+  document.getElementById('hostPassword').focus();
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('visible');
+}
+
+function hostLogin() {
+  const pw = document.getElementById('hostPassword').value;
+  if (pw === CONFIG.HOST_PASSWORD) {
+    document.getElementById('hostLogin').style.display = 'none';
+    document.getElementById('dashboard').classList.add('visible');
+    loadThoughts();
+  } else {
+    document.getElementById('loginError').classList.add('visible');
+    document.getElementById('hostPassword').value = '';
+  }
+}
+
+async function loadThoughts() {
+  const list = document.getElementById('thoughtsList');
+  list.innerHTML = `<div class="dash-empty">Loading...</div>`;
+  try {
+    const thoughts = await fetchThoughts();
+    renderDashStats(thoughts);
+    if (!thoughts.length) { list.innerHTML = `<div class="dash-empty">No thoughts yet. Share your link!</div>`; return; }
+    list.innerHTML = thoughts.map((t, i) => renderThoughtRow(t, i)).join('');
+  } catch (e) {
+    list.innerHTML = `<div class="dash-empty" style="color:var(--accent2)">Error: ${e.message}</div>`;
+  }
+}
+
+function renderDashStats(thoughts) {
+  const brutal = thoughts.filter(t => t.mode === 'brutal').length;
+  const today = thoughts.filter(t => new Date(t.created_at).toDateString() === new Date().toDateString()).length;
+  document.getElementById('dashStats').innerHTML = `
+    <div class="dash-stat"><div class="dash-stat-num">${thoughts.length}</div><div class="dash-stat-label">Total</div></div>
+    <div class="dash-stat"><div class="dash-stat-num">${today}</div><div class="dash-stat-label">Today</div></div>
+    <div class="dash-stat"><div class="dash-stat-num">${brutal}</div><div class="dash-stat-label">Brutal Mode</div></div>
+    <div class="dash-stat"><div class="dash-stat-num">${thoughts.length - brutal}</div><div class="dash-stat-label">Standard</div></div>`;
+}
+
+function renderThoughtRow(t, i) {
+  const date = new Date(t.created_at);
+  const timeStr = date.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }) + ' ' +
+    date.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+  const preview = t.thought.length > 120 ? t.thought.slice(0, 120) + '...' : t.thought;
+  const analysis = t.analysis || {};
+  const actions = (analysis.actions || []).slice(0,3).map((a,j) =>
+    `<div class="thought-action-item">0${j+1}. ${esc(a.step)}</div>`).join('');
+
+  return `
+    <div class="thought-row" onclick="this.classList.toggle('expanded')">
+      <div class="thought-meta">
+        <span class="thought-time">${timeStr}</span>
+        <span class="thought-mode-tag ${t.mode}">${t.mode}</span>
+      </div>
+      <div class="thought-preview">${esc(preview)}</div>
+      <div class="thought-full">
+        ${analysis.situation ? `<div class="thought-situation">📌 ${esc(analysis.situation)}</div>` : ''}
+        ${actions ? `<div class="thought-actions-preview">${actions}</div>` : ''}
+      </div>
+    </div>`;
+}
+
+// Close modal on overlay click
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Enter key on password
+document.getElementById('hostPassword').addEventListener('keydown', e => {
+  if (e.key === 'Enter') hostLogin();
+});
+
+// ═══════════════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════════════
+function setLoading(on) {
+  document.getElementById('loadingBar').classList.toggle('active', on);
+  document.getElementById('loadingText').classList.toggle('active', on);
+  analyzeBtn.disabled = on;
+  analyzeBtn.textContent = on ? 'ANALYZING...' : 'ANALYZE';
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorBox');
+  el.textContent = `ERROR // ${msg}`;
+  el.classList.add('visible');
+}
+
+function hideError() { document.getElementById('errorBox').classList.remove('visible'); }
+
+function resetForm() {
+  textarea.value = '';
+  charCount.textContent = '0 characters';
+  document.getElementById('outputSection').classList.remove('visible');
+  document.getElementById('cardsGrid').innerHTML = '';
+  document.getElementById('patternSection').style.display = 'none';
+  hideError();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  textarea.focus();
+}
+
+function esc(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

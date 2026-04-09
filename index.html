@@ -420,25 +420,31 @@ async function callGemini(thought, currentMode) {
       body: JSON.stringify({ thought, mode: currentMode })
     });
 
-    if (!res.ok) throw new Error('Backend failed');
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("Backend returned an error:", errorText);
+      throw new Error('Backend failed');
+    }
 
     const data = await res.json();
-    let text = data.text; 
+    let aiText = data.text; 
 
-    // This logic finds the first '{' and the last '}'
-    // and ignores any text or markdown Gemini added outside of them.
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    // DEBUGGER: See exactly what Gemini sent back in your F12 Console
+    console.log("Raw Text from Gemini:", aiText);
+
+    // REGEX: This finds the first '{' and the last '}'
+    // and ignores any text or backticks Gemini added outside of them.
+    const jsonMatch = aiText.match(/\{[\s\S]*\}/);
     
     if (jsonMatch) {
-      // We parse ONLY the JSON part
       return JSON.parse(jsonMatch[0]);
     } else {
-      console.error("Raw AI response was:", text);
+      console.error("No JSON found in response. Raw text:", aiText);
       throw new Error("No JSON found");
     }
     
   } catch (e) {
-    console.error("Parsing Error:", e);
+    console.error("Parsing Error details:", e);
     throw new Error('Analysis failed: AI sent back unreadable data.');
   }
 }

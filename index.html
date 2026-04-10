@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OVERTHINKING KILLER</title>
+<title>OVERTHINKING KILLER // V2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
 <style>
@@ -56,202 +56,55 @@
   .mode-selector { display: flex; background: var(--bg); border: 1px solid var(--border); padding: 3px; }
   .mode-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
   .mode-btn.active { background: var(--accent2); color: #000; font-weight: 700; }
-  .mode-btn:not(.active):hover { color: var(--text); }
 
   .analyze-row { margin-top: 20px; display: flex; align-items: center; gap: 16px; animation: fadeUp 0.7s ease 0.2s both; }
   .analyze-btn { font-family: var(--display); font-size: 22px; letter-spacing: 3px; padding: 16px 40px; background: var(--accent); color: #000; border: none; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; flex-shrink: 0; }
-  .analyze-btn::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.15); transform: translateX(-100%); transition: transform 0.3s ease; }
-  .analyze-btn:hover::before { transform: translateX(0); }
-  .analyze-btn:active { transform: scale(0.98); }
-  .analyze-hint { font-family: var(--mono); font-size: 11px; color: var(--text-muted); line-height: 1.6; }
+  .analyze-btn:hover { background: #d4eb3d; }
 
   .loading-bar { height: 2px; background: var(--border); margin: 32px 0; position: relative; display: none; }
   .loading-bar.active { display: block; }
   .loading-bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 40%; background: var(--accent); animation: loadSlide 1s ease-in-out infinite; }
   @keyframes loadSlide { 0% { left: -40%; } 100% { left: 100%; } }
-  .loading-text { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-align: center; display: none; animation: blink 1s step-end infinite; margin-bottom: 32px; }
-  .loading-text.active { display: block; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-  .error-box { padding: 20px; background: rgba(255,71,71,0.05); border: 1px solid rgba(255,71,71,0.2); font-family: var(--mono); font-size: 12px; color: var(--accent2); line-height: 1.7; display: none; margin-top: 24px; }
-  .error-box.visible { display: block; }
 
   .output-section { margin-top: 48px; padding-bottom: 80px; display: none; }
   .output-section.visible { display: block; }
-  .output-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-  .output-title { font-family: var(--display); font-size: 32px; letter-spacing: 2px; color: var(--accent); }
-  .output-meta { font-family: var(--mono); font-size: 11px; color: var(--text-muted); text-align: right; line-height: 1.8; }
-  .brutal-tag { display: inline-block; background: var(--accent2); color: #fff; padding: 2px 6px; font-size: 9px; letter-spacing: 0.1em; vertical-align: middle; margin-left: 6px; }
+  .output-title { font-family: var(--display); font-size: 32px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; }
 
-  .cards-grid { display: flex; flex-direction: column; gap: 3px; }
-  .card { background: var(--surface); border-left: 3px solid transparent; overflow: hidden; opacity: 0; transform: translateX(-16px); animation: slideIn 0.4s ease forwards; }
-  .card:nth-child(1){animation-delay:0.05s;border-left-color:#888}
-  .card:nth-child(2){animation-delay:0.15s;border-left-color:#5599ff}
-  .card:nth-child(3){animation-delay:0.25s;border-left-color:var(--accent2)}
-  .card:nth-child(4){animation-delay:0.35s;border-left-color:#ff9f40}
-  .card:nth-child(5){animation-delay:0.45s;border-left-color:var(--accent)}
-  @keyframes slideIn { to { opacity:1; transform:translateX(0); } }
+  .cards-grid { display: flex; flex-direction: column; gap: 4px; }
+  .card { background: var(--surface); border-left: 3px solid var(--accent); margin-bottom: 2px; }
+  .card-header { padding: 15px 20px; background: var(--surface2); display: flex; justify-content: space-between; cursor: pointer; }
+  .card-label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--accent); }
+  .card-body { padding: 20px 20px 20px 40px; }
 
-  .card-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: var(--surface2); cursor: pointer; user-select: none; transition: background 0.15s; }
-  .card-header:hover { background: #222; }
-  .card-num { font-family: var(--display); font-size: 28px; color: var(--text-muted); line-height: 1; flex-shrink: 0; }
-  .card-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); flex: 1; }
-  .card-toggle { font-family: var(--mono); font-size: 14px; color: var(--text-muted); transition: transform 0.2s; }
-  .card.collapsed .card-toggle { transform: rotate(-90deg); }
-  .card-body { padding: 20px 20px 20px 60px; border-top: 1px solid var(--border); }
-  .card.collapsed .card-body { display: none; }
-
-  .situation-text { font-size: 17px; font-weight: 600; line-height: 1.5; }
-  .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .control-col { padding: 14px; border: 1px solid var(--border); }
-  .control-col-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; }
-  .control-col.yours .control-col-label { color: #5599ff; }
-  .control-col.theirs .control-col-label { color: var(--text-muted); }
-  .control-items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-  .control-items li { font-size: 14px; font-weight: 300; color: var(--text-dim); padding-left: 14px; position: relative; line-height: 1.4; }
-  .control-col.yours .control-items li::before { content:'→'; position:absolute; left:0; color:#5599ff; font-size:12px; }
-  .control-col.theirs .control-items li::before { content:'✕'; position:absolute; left:0; color:var(--text-muted); font-size:10px; top:2px; }
-  .worst-case-text { font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--text-dim); border-left: 2px solid var(--accent2); padding-left: 16px; font-style: italic; }
-  .reality-items { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .reality-item { display: flex; gap: 12px; align-items: flex-start; }
-  .reality-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 6px; border: 1px solid; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
-  .reality-tag.assumption { border-color:#ff9f40; color:#ff9f40; }
-  .reality-tag.bias { border-color:var(--accent2); color:var(--accent2); }
-  .reality-tag.fact { border-color:#5599ff; color:#5599ff; }
-  .reality-tag.exaggeration { border-color:#a78bfa; color:#a78bfa; }
-  .reality-text { font-size: 14px; font-weight: 300; line-height: 1.6; color: var(--text-dim); }
-  .action-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .action-item { display: flex; gap: 16px; align-items: flex-start; }
-  .action-num { font-family: var(--display); font-size: 24px; color: var(--accent); line-height: 1; flex-shrink: 0; margin-top: -2px; }
-  .action-text { font-size: 15px; font-weight: 400; line-height: 1.6; }
-  .action-text small { display: block; font-size: 12px; color: var(--text-dim); font-weight: 300; margin-top: 2px; }
-  .brutal-callout { background: rgba(255,71,71,0.06); border: 1px solid rgba(255,71,71,0.2); padding: 14px 16px; margin-top: 16px; font-size: 13px; color: #ff7070; font-weight: 300; line-height: 1.6; font-style: italic; }
-  .brutal-callout::before { content:'⚠ BRUTAL TRUTH: '; font-family:var(--mono); font-size:10px; letter-spacing:0.1em; font-style:normal; font-weight:700; color:var(--accent2); display:block; margin-bottom:6px; }
-
-  .pattern-section { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); display: none; }
-  .pattern-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
-  .pattern-title::before { content:'// '; color:var(--accent); }
-  .pattern-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; margin-bottom: 16px; }
-  .stat-box { background: var(--surface2); padding: 16px; text-align: center; }
-  .stat-num { font-family: var(--display); font-size: 36px; color: var(--accent); line-height: 1; display: block; }
-  .stat-label { font-family: var(--mono); font-size: 9px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; display: block; }
-  .pattern-bars { display: flex; flex-direction: column; gap: 8px; }
-  .pattern-bar-row { display: flex; align-items: center; gap: 12px; }
-  .pattern-bar-label { font-family: var(--mono); font-size: 10px; color: var(--text-muted); width: 120px; flex-shrink: 0; text-transform: uppercase; }
-  .pattern-bar-track { flex: 1; height: 4px; background: var(--border); position: relative; overflow: hidden; }
-  .pattern-bar-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); transition: width 0.8s ease; }
-  .pattern-bar-count { font-family: var(--mono); font-size: 11px; color: var(--text-dim); width: 20px; text-align: right; flex-shrink: 0; }
-
-  /* HOST MODAL */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; display: none; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 16px; }
-  .modal-overlay.visible { display: flex; }
-  .modal { background: var(--surface); border: 1px solid var(--border); width: 100%; max-width: 900px; }
-  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--border); background: var(--surface2); }
-  .modal-title { font-family: var(--display); font-size: 28px; letter-spacing: 2px; color: var(--accent); }
-  .modal-close { font-family: var(--mono); font-size: 18px; color: var(--text-muted); background: none; border: none; cursor: pointer; padding: 4px 8px; transition: color 0.15s; }
-  .modal-close:hover { color: var(--text); }
-  .host-login { padding: 48px 32px; display: flex; flex-direction: column; gap: 16px; max-width: 400px; }
-  .host-login-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
-  .host-login-title::before { content:'// '; color:var(--accent); }
-  .host-input { background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 14px; padding: 12px 16px; outline: none; width: 100%; transition: border-color 0.15s; }
-  .host-input:focus { border-color: var(--accent); }
-  .host-login-btn { font-family: var(--display); font-size: 18px; letter-spacing: 2px; padding: 12px 24px; background: var(--accent); color: #000; border: none; cursor: pointer; align-self: flex-start; }
-  .login-error { font-family: var(--mono); font-size: 11px; color: var(--accent2); display: none; }
-  .login-error.visible { display: block; }
-  .dashboard { display: none; padding: 24px; }
-  .dashboard.visible { display: block; }
-  .dash-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 3px; margin-bottom: 24px; }
-  .dash-stat { background: var(--surface2); padding: 16px; text-align: center; }
-  .dash-stat-num { font-family: var(--display); font-size: 32px; color: var(--accent); line-height: 1; }
-  .dash-stat-label { font-family: var(--mono); font-size: 9px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
-  .thoughts-list { display: flex; flex-direction: column; gap: 3px; max-height: 500px; overflow-y: auto; }
-  .thought-row { background: var(--surface2); border-left: 3px solid var(--border); padding: 14px 16px; cursor: pointer; transition: background 0.15s; }
-  .thought-row:hover { background: #222; }
-  .thought-row.expanded { border-left-color: var(--accent); }
-  .thought-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
-  .thought-time { font-family: var(--mono); font-size: 10px; color: var(--text-muted); }
-  .thought-mode-tag { font-family: var(--mono); font-size: 9px; padding: 2px 6px; letter-spacing: 0.1em; text-transform: uppercase; }
-  .thought-mode-tag.standard { border: 1px solid var(--border); color: var(--text-muted); }
-  .thought-mode-tag.brutal { border: 1px solid var(--accent2); color: var(--accent2); }
-  .thought-preview { font-size: 14px; font-weight: 300; color: var(--text-dim); line-height: 1.5; }
-  .thought-full { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); display: none; }
-  .thought-row.expanded .thought-full { display: block; }
-  .thought-situation { font-size: 13px; color: var(--text); margin-bottom: 8px; }
-  .thought-actions-preview { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
-  .thought-action-item { font-family: var(--mono); font-size: 11px; color: var(--accent); }
-  .dash-empty { font-family: var(--mono); font-size: 12px; color: var(--text-muted); padding: 32px; text-align: center; }
-  .dash-refresh { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 20px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; transition: all 0.15s; margin-bottom: 16px; }
-  .dash-refresh:hover { border-color: var(--accent); color: var(--accent); }
-
-  .reset-btn { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 20px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; transition: all 0.15s; margin-top: 32px; }
-  .reset-btn:hover { border-color: var(--text-dim); color: var(--text); }
-
-  footer { border-top: 1px solid var(--border); padding: 24px 0; display: flex; align-items: center; justify-content: space-between; margin-top: 40px; }
-  .footer-text { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
-  .footer-host { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: color 0.15s; }
-  .footer-host:hover { color: var(--accent); }
+  .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .control-col-label { font-family: var(--mono); font-size: 10px; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; }
+  .control-items { list-style: none; font-size: 14px; color: var(--text-dim); }
+  .control-items li { margin-bottom: 5px; }
+  .brutal-callout { background: rgba(255,71,71,0.1); border: 1px solid var(--accent2); padding: 15px; margin-top: 15px; color: var(--accent2); font-style: italic; font-size: 14px; }
+  .reset-btn { margin-top: 30px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 10px 20px; cursor: pointer; font-family: var(--mono); font-size: 10px; }
 
   @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
   @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
-
-  @media(max-width:600px){
-    .header-inner{flex-direction:column;align-items:flex-start}
-    .control-grid{grid-template-columns:1fr}
-    .pattern-stats,.dash-stats{grid-template-columns:repeat(2,1fr)}
-    .card-body{padding:16px}
-    .analyze-row{flex-direction:column;align-items:flex-start}
-  }
 </style>
 </head>
 <body>
 
-<!-- CONFIG — edit these two values -->
-<script>
-  const HOST_PASSWORD = 'killer2025'; // Change this to your own password
-  const SUPABASE_URL  = 'https://wnlimguvvaewortwvnzm.supabase.co';
-  const SUPABASE_KEY  = 'sb_publishable_X7FXM8C-rTuHWv7_USkkKg_mS3O77Jq';
-</script>
-
-<!-- HOST MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">HOST DASHBOARD</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="host-login" id="hostLogin">
-      <div class="host-login-title">Access</div>
-      <input type="password" class="host-input" id="hostPassword" placeholder="Enter host password" onkeydown="if(event.key==='Enter')hostLogin()">
-      <div class="login-error" id="loginError">Wrong password.</div>
-      <button class="host-login-btn" onclick="hostLogin()">ENTER</button>
-    </div>
-    <div class="dashboard" id="dashboard">
-      <div class="dash-stats" id="dashStats"></div>
-      <button class="dash-refresh" onclick="loadThoughts()">↺ REFRESH</button>
-      <div class="thoughts-list" id="thoughtsList"></div>
-    </div>
-  </div>
-</div>
-
-<!-- MAIN -->
 <div class="container">
   <header>
     <div class="header-inner">
       <div>
         <div class="logo">OVER<span>THINKING</span>KILLER</div>
-        <div class="tagline">Input messy thoughts → Output structured clarity + action</div>
+        <div class="tagline">Weighted Logic Engine V2.0 // No AI</div>
       </div>
-      <div class="version-badge">V1.0 // LIVE</div>
+      <div class="version-badge">STABLE</div>
     </div>
   </header>
 
   <section class="input-section">
-    <div class="section-label">Input</div>
-    <p class="input-prompt">What's <strong>actually</strong> going on in your head right now?</p>
+    <div class="section-label">Input Neural Dump</div>
+    <p class="input-prompt">Describe the loop in your head.</p>
     <div class="input-wrapper">
-      <div class="input-corner tl"></div><div class="input-corner tr"></div>
-      <div class="input-corner bl"></div><div class="input-corner br"></div>
-      <textarea id="thoughtInput" rows="6" placeholder='Dump it all here. No judgment. "She didn&apos;t reply for 5 hours..."'></textarea>
+      <textarea id="thoughtInput" placeholder='e.g., "I keep worrying about the exam tomorrow because I haven't studied..."'></textarea>
       <div class="input-footer">
         <span class="char-count" id="charCount">0 characters</span>
         <div class="mode-selector">
@@ -264,496 +117,165 @@
 
   <div class="analyze-row">
     <button class="analyze-btn" id="analyzeBtn">ANALYZE</button>
-    <p class="analyze-hint">100% rule-based logic.<br>No AI. No internet. Instant.</p>
   </div>
 
   <div class="loading-bar" id="loadingBar"></div>
-  <div class="loading-text" id="loadingText">ANALYZING THOUGHT PATTERN...</div>
-  <div class="error-box" id="errorBox"></div>
 
   <section class="output-section" id="outputSection">
-    <div class="output-header">
-      <div class="output-title">ANALYSIS</div>
-      <div class="output-meta" id="outputMeta"></div>
-    </div>
+    <div class="output-title">LOGIC BREAKDOWN</div>
     <div class="cards-grid" id="cardsGrid"></div>
-    <div class="pattern-section" id="patternSection">
-      <div class="pattern-title">Session Patterns</div>
-      <div class="pattern-stats" id="patternStats"></div>
-      <div class="pattern-bars" id="patternBars"></div>
-    </div>
-    <button class="reset-btn" onclick="resetForm()">↺ ANALYZE ANOTHER THOUGHT</button>
+    <button class="reset-btn" onclick="location.reload()">↺ NEW SESSION</button>
   </section>
-
-  <footer>
-    <div class="footer-text">Overthinking Killer // Think in systems, not spirals</div>
-    <div class="footer-host" onclick="openModal()">HOST LOGIN</div>
-  </footer>
 </div>
 
 <script>
 // ═══════════════════════════════════════════════
-//  RULE ENGINE
+//  RULE ENGINE V2 (Weighted & Randomized)
 // ═══════════════════════════════════════════════
 
 const RULES = {
-
-  // ── RELATIONSHIP ──
   relationship: {
-    keywords: ['she','he','her','him','they','girlfriend','boyfriend','partner','ex','crush','reply','text','message','read','seen','left on read','ghosting','ghosted','ignoring','ignore','cold','distant','losing interest','interested','like me','loves me','dating','date','relationship','together','break up','broke up','cheating','jealous','talking to'],
+    weights: { 'she':1, 'he':1, 'reply':3, 'text':2, 'left on read':5, 'ghosted':5, 'crush':3, 'seen':4, 'dating':2 },
     situations: [
-      'You are anxious about another person\'s behavior and what it means for the relationship.',
-      'You are reading too much into someone else\'s actions and trying to decode their feelings.',
-      'You\'re spiraling over what someone did or didn\'t do, and what it says about where you stand.'
+      "You are analyzing a social interaction as if it were a forensic investigation.",
+      "Anxiety is filling the silence of a delayed response with your worst fears.",
+      "You are looking for hidden meanings in a situation that likely has none."
     ],
     control: {
-      yours: ['How you respond', 'What you communicate', 'Your own actions', 'How much energy you give this'],
-      notYours: ['Their feelings', 'Their decisions', 'Their reply speed', 'How they feel about you']
+      yours: ['Your self-respect', 'Your hobbies', 'How you spend the next hour'],
+      notYours: ['Their response time', 'Their internal mood', 'How they perceive you']
     },
-    worstCases: [
-      'They have lost interest. If so, trying harder right now won\'t change that — it usually makes it worse.',
-      'The relationship ends. That is painful but survivable, and chasing won\'t prevent it.',
-      'You never get a clear answer. Uncertainty is uncomfortable but it doesn\'t destroy you.'
+    brutalTruths: [
+      "If you have to decode their behavior like a secret cipher, the answer is already 'No'.",
+      "One person shouldn't have this much power over your heart rate. Get a hobby.",
+      "Silence is not a puzzle; it's a boundary. Stop trying to break through it."
     ],
-    realityChecks: [
-      { tag: 'assumption', text: 'You are treating one data point (a delayed reply, a short message) as proof of a pattern. One event is not a pattern.' },
-      { tag: 'bias', text: 'When anxious, your brain defaults to the worst interpretation. That is anxiety speaking, not reality.' },
-      { tag: 'assumption', text: 'You do not actually know what they are thinking. You are filling in blanks with your fear.' },
-      { tag: 'fact', text: 'People have bad days, busy schedules, and low energy that has nothing to do with you.' }
-    ],
-    actions: [
-      { step: 'Do nothing for 24 hours', why: 'Acting while anxious always makes things worse. Let the spike pass.' },
-      { step: 'Observe the pattern — not the single event', why: 'One delayed reply means nothing. Five in a row means something.' },
-      { step: 'Have a direct conversation if the pattern continues', why: 'Assumptions kill more relationships than honest talks do.' }
-    ],
-    brutalTruth: 'You are spending more energy analyzing their behavior than actually living your life. That energy imbalance is the real problem here.',
     pattern: 'relationship'
   },
-
-  // ── CAREER ──
   career: {
-    keywords: ['job','work','career','boss','manager','colleague','fired','quit','promotion','salary','interview','application','rejected','rejection','unemployed','startup','business','project','deadline','performance','review','layoff','laid off','resign','company'],
+    weights: { 'job':2, 'boss':3, 'fired':5, 'interview':3, 'career':2, 'deadline':3, 'promotion':3, 'work':1 },
     situations: [
-      'You are anxious about your professional situation and what might happen next.',
-      'You are second-guessing a career decision or worrying about how you are perceived at work.',
-      'Work pressure is creating a spiral of "what if" thinking about your future.'
+      "Professional uncertainty is triggering a survival-level threat response.",
+      "You are equating your career performance with your fundamental value as a human.",
+      "A temporary setback is being treated as a permanent career death sentence."
     ],
     control: {
-      yours: ['Your output quality', 'How you communicate concerns', 'Skills you develop', 'How you present yourself'],
-      notYours: ['Company decisions', 'Your boss\'s mood', 'Economic conditions', 'Other people\'s opinions of you']
+      yours: ['Your technical skills', 'Your resume updates', 'Your networking effort'],
+      notYours: ['The economy', 'The hiring manager\'s bias', 'Office politics']
     },
-    worstCases: [
-      'You lose the job. Most people who get fired find another one. Your career does not end here.',
-      'The promotion does not come. That is a setback, not a verdict on your worth.',
-      'The project fails. Failure is data, not identity.'
+    brutalTruths: [
+      "The company would post your job opening before your obituary. Don't die for a desk.",
+      "You are catastrophizing a situation that is essentially just 'admin trouble'.",
+      "Stop thinking. Start applying. Movement is the only cure for work-guilt."
     ],
-    realityChecks: [
-      { tag: 'exaggeration', text: '"Always" and "never" are exaggerations. One bad review or missed deadline is not your entire career.' },
-      { tag: 'assumption', text: 'You are assuming negative intent or judgment from others without direct evidence.' },
-      { tag: 'bias', text: 'You are focusing entirely on what could go wrong and ignoring what you have already built.' },
-      { tag: 'fact', text: 'Most professional anxiety is about future events that have not happened yet.' }
-    ],
-    actions: [
-      { step: 'Write down the specific, concrete thing you are actually afraid of', why: 'Vague fear is paralyzing. Named fear is manageable.' },
-      { step: 'Identify one action you can take in the next 48 hours', why: 'Motion defeats anxiety better than thinking does.' },
-      { step: 'Talk to someone who has been in this situation', why: 'Perspective from outside the spiral is more valuable than more analysis.' }
-    ],
-    brutalTruth: 'You are catastrophizing a situation that is uncomfortable but not actually dangerous. Most career anxiety is about your ego, not your survival.',
     pattern: 'career'
   },
-
-  // ── FEAR / FUTURE ──
-  fear: {
-    keywords: ['what if','scared','afraid','fear','anxious','anxiety','panic','worried','worry','future','tomorrow','going to happen','something bad','terrible','disaster','fail','failing','mistake','wrong decision','regret','too late','never','always','everything','nothing will'],
-    situations: [
-      'You are trapped in a "what if" loop about a future event that hasn\'t happened yet.',
-      'Fear of a bad outcome is stopping you from thinking clearly about what to actually do.',
-      'You are treating an uncertain future as if it is already a confirmed bad outcome.'
-    ],
-    control: {
-      yours: ['Your next action', 'How you prepare', 'Who you talk to', 'How you interpret the situation'],
-      notYours: ['The outcome itself', 'Other people\'s reactions', 'Timing of events', 'Circumstances outside your control']
-    },
-    worstCases: [
-      'The thing you fear happens. You handle it. Not perfectly, but you handle it. You always have before.',
-      'You make the wrong decision. Most wrong decisions are correctable. Very few are permanent.',
-      'Things do not go as planned. Plans rarely survive contact with reality anyway.'
-    ],
-    realityChecks: [
-      { tag: 'exaggeration', text: '"What if" thinking inflates the probability and severity of bad outcomes. Your brain is not a reliable probability calculator when anxious.' },
-      { tag: 'bias', text: 'You are ignoring all the times things worked out fine and your anxiety was wrong.' },
-      { tag: 'assumption', text: 'You are assuming that if the bad thing happens, you won\'t be able to cope. That assumption is almost always false.' },
-      { tag: 'fact', text: 'Worry does not prevent bad outcomes. It just makes the waiting worse.' }
-    ],
-    actions: [
-      { step: 'Write down the actual worst case — specifically', why: 'Unnamed fears are bigger than named ones. Make it concrete.' },
-      { step: 'Ask: "What would I do if that actually happened?"', why: 'You will find you have more options than the anxious brain admits.' },
-      { step: 'Do one small thing toward the situation right now', why: 'Action is the antidote to fear-based paralysis.' }
-    ],
-    brutalTruth: 'You are suffering from something that has not happened and may never happen. You are choosing to live in an imaginary bad future instead of the actual present.',
-    pattern: 'fear'
-  },
-
-  // ── SELF-DOUBT ──
-  selfDoubt: {
-    keywords: ['not good enough','i\'m stupid','i\'m dumb','i\'m worthless','hate myself','failure','loser','nobody likes','no one cares','what\'s wrong with me','something wrong with me','terrible person','bad person','can\'t do anything','useless','pointless','don\'t deserve','why do i always','i always mess up','i never get'],
-    situations: [
-      'You are in a self-critical spiral, treating a feeling as if it is a fact about who you are.',
-      'A setback or mistake is being used as evidence against your entire self-worth.',
-      'You are making a global judgment about yourself based on a specific situation.'
-    ],
-    control: {
-      yours: ['The story you tell yourself about this', 'Whether you take action despite the feeling', 'Who you talk to about it'],
-      notYours: ['How you feel right now', 'What already happened', 'Other people\'s opinions']
-    },
-    worstCases: [
-      'You really did mess up. Mistakes are not evidence of being fundamentally broken — they are evidence of being human.',
-      'Some people don\'t like you. Not everyone will. That is not a problem to solve.',
-      'You fail at this particular thing. Failure at one thing is not failure as a person.'
-    ],
-    realityChecks: [
-      { tag: 'exaggeration', text: '"Always" and "never" — "I always mess up", "I never get it right" — are cognitive distortions, not facts.' },
-      { tag: 'bias', text: 'You are applying a standard to yourself that you would never apply to someone you care about.' },
-      { tag: 'assumption', text: 'You are treating a temporary feeling ("I feel worthless") as a permanent truth ("I am worthless").' },
-      { tag: 'fact', text: 'The self-critical voice is loudest when you are tired, stressed, or have just failed at something. It is not objective.' }
-    ],
-    actions: [
-      { step: 'Separate the feeling from the fact', why: '"I feel like a failure" and "I am a failure" are completely different statements.' },
-      { step: 'Identify the specific thing that triggered this — not your whole identity', why: 'You are reacting to a specific event, not revealing a fundamental truth.' },
-      { step: 'Do one thing you are actually competent at', why: 'Action rebuilds self-trust faster than thinking does.' }
-    ],
-    brutalTruth: 'You are using vague, absolute language ("always", "never", "worthless") which is a sign that your critical brain has taken over. None of those words are accurate.',
-    pattern: 'assumption'
-  },
-
-  // ── DEFAULT ──
   default: {
-    situations: [
-      'You are caught in a thought loop that is consuming more energy than the actual problem warrants.',
-      'Something is bothering you and instead of addressing it, you are analyzing it repeatedly.',
-      'You are overthinking a situation that requires a decision or action, not more analysis.'
-    ],
-    control: {
-      yours: ['Your next action', 'How you respond to the situation', 'What information you seek out', 'Who you talk to'],
-      notYours: ['The outcome', 'Other people\'s behavior', 'What has already happened', 'External circumstances']
-    },
-    worstCases: [
-      'The situation goes badly. You adapt. That is what humans do.',
-      'You make the wrong choice. Almost every wrong choice is recoverable.',
-      'Things remain uncertain for a while. Uncertainty is uncomfortable, not dangerous.'
-    ],
-    realityChecks: [
-      { tag: 'assumption', text: 'You are treating an uncertain situation as if the outcome is already determined and bad.' },
-      { tag: 'bias', text: 'Overthinking feels like doing something productive, but it is usually a way to avoid taking action.' },
-      { tag: 'fact', text: 'More analysis beyond a certain point produces worse decisions, not better ones.' },
-      { tag: 'exaggeration', text: 'The situation is probably more manageable than it feels right now.' }
-    ],
-    actions: [
-      { step: 'Define the actual problem in one sentence', why: 'If you cannot state it clearly, you cannot solve it clearly.' },
-      { step: 'List the two or three options actually available to you', why: 'Overthinking expands the problem. Options collapse it back to reality.' },
-      { step: 'Pick the option you can live with most and take one step toward it', why: 'A moved direction beats a perfect plan that never starts.' }
-    ],
-    brutalTruth: 'You already know what you need to do. You are thinking more to avoid doing it.',
+    situations: ["The system is detecting a high-frequency thought loop with no exit strategy."],
+    control: { yours: ['Focus', 'Breath', 'Next action'], notYours: ['The past', 'The unknown', 'Other people'] },
+    brutalTruths: ["Overthinking is just the ego's way of feeling productive without doing work."],
     pattern: 'other'
   }
 };
 
 // ═══════════════════════════════════════════════
-//  DETECTION ENGINE
+//  CORE LOGIC
 // ═══════════════════════════════════════════════
 
-function detectCategory(text) {
-  const lower = text.toLowerCase();
-  const scores = {};
+function analyze() {
+  const input = document.getElementById('thoughtInput').value.trim();
+  if (input.length < 10) return alert("Dump more thoughts first.");
 
-  for (const [cat, rule] of Object.entries(RULES)) {
-    if (!rule.keywords) continue;
-    scores[cat] = rule.keywords.filter(kw => lower.includes(kw)).length;
+  const mode = document.querySelector('.mode-btn.active').dataset.mode;
+  document.getElementById('loadingBar').classList.add('active');
+
+  setTimeout(() => {
+    const analysis = runEngine(input, mode);
+    render(analysis);
+    document.getElementById('loadingBar').classList.remove('active');
+    document.getElementById('outputSection').classList.add('visible');
+    document.getElementById('outputSection').scrollIntoView({behavior:'smooth'});
+  }, 1000);
+}
+
+function runEngine(text, mode) {
+  const lower = text.toLowerCase();
+  let selected = RULES.default;
+  let maxScore = 0;
+
+  // Weighted Category Detection
+  for (const [key, rule] of Object.entries(RULES)) {
+    if (!rule.weights) continue;
+    let score = 0;
+    for (const [word, weight] of Object.entries(rule.weights)) {
+      if (lower.includes(word)) score += weight;
+    }
+    if (score > maxScore) {
+      maxScore = score;
+      selected = rule;
+    }
   }
 
-  const best = Object.entries(scores).sort((a, b) => b[1] - a[1])[0];
-  return (best && best[1] > 0) ? RULES[best[0]] : RULES.default;
+  // Subject Extraction (The "Echo")
+  let subject = "the current situation";
+  const markers = ["about ", "over ", "because "];
+  for (let m of markers) {
+    if (lower.includes(m)) {
+      let part = text.split(new RegExp(m, 'i'))[1];
+      subject = part.split(/[.!,]/)[0]; // Grab until punctuation
+      break;
+    }
+  }
+
+  return {
+    subject: subject,
+    situation: pick(selected.situations),
+    yours: selected.control.yours,
+    notYours: selected.control.notYours,
+    brutal: mode === 'brutal' ? pick(selected.brutalTruths) : null
+  };
+}
+
+function render(data) {
+  const grid = document.getElementById('cardsGrid');
+  grid.innerHTML = `
+    <div class="card">
+      <div class="card-header"><span class="card-label">The Subject</span></div>
+      <div class="card-body">Target Identified: <strong>${data.subject}</strong>.</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-label">Analysis</span></div>
+      <div class="card-body">${data.situation}</div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-label">Control Matrix</span></div>
+      <div class="card-body">
+        <div class="control-grid">
+          <div><div class="control-col-label">Yours</div><ul class="control-items">${data.yours.map(i=>`<li>→ ${i}</li>`).join('')}</ul></div>
+          <div><div class="control-col-label">External</div><ul class="control-items">${data.notYours.map(i=>`<li>✕ ${i}</li>`).join('')}</ul></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  if (data.brutal) {
+    grid.innerHTML += `<div class="brutal-callout"><strong>BRUTAL TRUTH:</strong><br>${data.brutal}</div>`;
+  }
 }
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-function buildAnalysis(text, currentMode) {
-  const rule = detectCategory(text);
-  const wordCount = text.trim().split(/\s+/).length;
-
-  // Pick subset of reality checks (2-3)
-  const checks = [...rule.realityChecks].sort(() => Math.random() - 0.5).slice(0, 3);
-
-  return {
-    situation: pick(rule.situations),
-    control: rule.control,
-    worstCase: pick(rule.worstCases),
-    realityCheck: checks,
-    actions: rule.actions,
-    brutalTruth: currentMode === 'brutal' ? rule.brutalTruth : null,
-    pattern: rule.pattern || 'other',
-    wordCount
-  };
-}
-
-// ═══════════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════════
-let mode = 'standard';
-let sessionCount = 0;
-let patternData = { relationship: 0, career: 0, fear: 0, assumption: 0, other: 0 };
-
-// ═══════════════════════════════════════════════
-//  UI
-// ═══════════════════════════════════════════════
-const textarea = document.getElementById('thoughtInput');
-const charCount = document.getElementById('charCount');
-const analyzeBtn = document.getElementById('analyzeBtn');
-
-textarea.addEventListener('input', () => {
-  charCount.textContent = `${textarea.value.length} characters`;
+// UI Helpers
+document.getElementById('analyzeBtn').addEventListener('click', analyze);
+document.getElementById('thoughtInput').addEventListener('input', (e) => {
+  document.getElementById('charCount').textContent = e.target.value.length + " characters";
 });
-
 document.querySelectorAll('.mode-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    mode = btn.dataset.mode;
   });
 });
-
-analyzeBtn.addEventListener('click', analyze);
-textarea.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) analyze(); });
-
-function toggleCard(card) {
-  card.classList.toggle('collapsed');
-  const t = card.querySelector('.card-toggle');
-  if (t) t.textContent = card.classList.contains('collapsed') ? '▾' : '▴';
-}
-
-// ═══════════════════════════════════════════════
-//  ANALYZE
-// ═══════════════════════════════════════════════
-function analyze() {
-  const input = textarea.value.trim();
-  if (!input || input.length < 10) { showError('Write at least a sentence.'); return; }
-  hideError();
-  setLoading(true);
-
-  // Simulate brief processing delay for UX
-  setTimeout(() => {
-    try {
-      const result = buildAnalysis(input, mode);
-      saveToSupabase(input, mode, result);
-      sessionCount++;
-      if (patternData.hasOwnProperty(result.pattern)) patternData[result.pattern]++;
-      renderOutput(result, input, mode);
-    } catch (err) {
-      showError(`Something went wrong: ${err.message}`);
-    } finally {
-      setLoading(false);
-    }
-  }, 800);
-}
-
-// ═══════════════════════════════════════════════
-//  SUPABASE SAVE
-// ═══════════════════════════════════════════════
-async function saveToSupabase(thought, currentMode, analysis) {
-  try {
-    await fetch(`${SUPABASE_URL}/rest/v1/thoughts`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify({ thought, mode: currentMode, analysis })
-    });
-  } catch (e) {
-    console.warn('Supabase save failed:', e.message);
-  }
-}
-
-// ═══════════════════════════════════════════════
-//  RENDER
-// ═══════════════════════════════════════════════
-function renderOutput(data, input, currentMode) {
-  const section = document.getElementById('outputSection');
-  const grid = document.getElementById('cardsGrid');
-  const now = new Date();
-
-  document.getElementById('outputMeta').innerHTML =
-    `${now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}<br>${data.wordCount} words in${currentMode==='brutal'?' <span class="brutal-tag">BRUTAL</span>':''}`;
-
-  grid.innerHTML = '';
-
-  // Card 1 — Situation
-  grid.appendChild(makeCard('01', 'Situation', `<p class="situation-text">${esc(data.situation)}</p>`));
-
-  // Card 2 — Control
-  const yl = data.control.yours.map(i=>`<li>${esc(i)}</li>`).join('');
-  const nl = data.control.notYours.map(i=>`<li>${esc(i)}</li>`).join('');
-  grid.appendChild(makeCard('02', "What You Control vs Don't", `
-    <div class="control-grid">
-      <div class="control-col yours"><div class="control-col-label">Yours</div><ul class="control-items">${yl}</ul></div>
-      <div class="control-col theirs"><div class="control-col-label">Not Yours</div><ul class="control-items">${nl}</ul></div>
-    </div>`));
-
-  // Card 3 — Worst Case
-  grid.appendChild(makeCard('03', 'Worst Case (Realistic)', `<p class="worst-case-text">${esc(data.worstCase)}</p>`));
-
-  // Card 4 — Reality Check
-  const ri = data.realityCheck.map(r=>`
-    <li class="reality-item">
-      <span class="reality-tag ${r.tag}">${r.tag}</span>
-      <span class="reality-text">${esc(r.text)}</span>
-    </li>`).join('');
-  let realityHtml = `<ul class="reality-items">${ri}</ul>`;
-  if (currentMode === 'brutal' && data.brutalTruth) realityHtml += `<div class="brutal-callout">${esc(data.brutalTruth)}</div>`;
-  grid.appendChild(makeCard('04', 'Reality Check', realityHtml));
-
-  // Card 5 — Actions
-  const ai = data.actions.map((a,i)=>`
-    <li class="action-item">
-      <span class="action-num">0${i+1}</span>
-      <span class="action-text">${esc(a.step)}<small>${esc(a.why)}</small></span>
-    </li>`).join('');
-  grid.appendChild(makeCard('05', `Action Steps (${data.actions.length})`, `<ul class="action-list">${ai}</ul>`));
-
-  section.classList.add('visible');
-  renderPatterns();
-  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function makeCard(num, label, bodyHtml) {
-  const div = document.createElement('div');
-  div.className = 'card';
-  div.innerHTML = `
-    <div class="card-header" onclick="toggleCard(this.parentElement)">
-      <span class="card-num">${num}</span>
-      <span class="card-label">${label}</span>
-      <span class="card-toggle">▴</span>
-    </div>
-    <div class="card-body">${bodyHtml}</div>`;
-  return div;
-}
-
-function renderPatterns() {
-  const total = Object.values(patternData).reduce((a,b)=>a+b,0);
-  if (total === 0) return;
-  document.getElementById('patternSection').style.display = 'block';
-  document.getElementById('patternStats').innerHTML = `
-    <div class="stat-box"><span class="stat-num">${sessionCount}</span><span class="stat-label">Analyses</span></div>
-    <div class="stat-box"><span class="stat-num">${patternData.relationship}</span><span class="stat-label">Relationship</span></div>
-    <div class="stat-box"><span class="stat-num">${patternData.assumption}</span><span class="stat-label">Assumptions</span></div>`;
-  const items = [
-    {label:'Relationship',key:'relationship'},
-    {label:'Career',key:'career'},
-    {label:'Fear',key:'fear'},
-    {label:'Assumption',key:'assumption'},
-    {label:'Other',key:'other'}
-  ];
-  const max = Math.max(...Object.values(patternData), 1);
-  document.getElementById('patternBars').innerHTML = items.map(item=>`
-    <div class="pattern-bar-row">
-      <div class="pattern-bar-label">${item.label}</div>
-      <div class="pattern-bar-track"><div class="pattern-bar-fill" style="width:${(patternData[item.key]/max)*100}%"></div></div>
-      <div class="pattern-bar-count">${patternData[item.key]}</div>
-    </div>`).join('');
-}
-
-// ═══════════════════════════════════════════════
-//  HOST DASHBOARD
-// ═══════════════════════════════════════════════
-function openModal() { document.getElementById('modalOverlay').classList.add('visible'); document.getElementById('hostPassword').focus(); }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('visible'); }
-
-function hostLogin() {
-  const pw = document.getElementById('hostPassword').value;
-  if (pw === HOST_PASSWORD) {
-    document.getElementById('hostLogin').style.display = 'none';
-    document.getElementById('dashboard').classList.add('visible');
-    loadThoughts();
-  } else {
-    document.getElementById('loginError').classList.add('visible');
-    document.getElementById('hostPassword').value = '';
-  }
-}
-
-async function loadThoughts() {
-  const list = document.getElementById('thoughtsList');
-  list.innerHTML = `<div class="dash-empty">Loading...</div>`;
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/thoughts?select=*&order=created_at.desc&limit=200`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
-    if (!res.ok) throw new Error('Failed to load');
-    const thoughts = await res.json();
-
-    const brutal = thoughts.filter(t=>t.mode==='brutal').length;
-    const today  = thoughts.filter(t=>new Date(t.created_at).toDateString()===new Date().toDateString()).length;
-    document.getElementById('dashStats').innerHTML = `
-      <div class="dash-stat"><div class="dash-stat-num">${thoughts.length}</div><div class="dash-stat-label">Total</div></div>
-      <div class="dash-stat"><div class="dash-stat-num">${today}</div><div class="dash-stat-label">Today</div></div>
-      <div class="dash-stat"><div class="dash-stat-num">${brutal}</div><div class="dash-stat-label">Brutal Mode</div></div>
-      <div class="dash-stat"><div class="dash-stat-num">${thoughts.length-brutal}</div><div class="dash-stat-label">Standard</div></div>`;
-
-    if (!thoughts.length) { list.innerHTML = `<div class="dash-empty">No thoughts yet. Share your link!</div>`; return; }
-
-    list.innerHTML = thoughts.map(t => {
-      const d = new Date(t.created_at);
-      const ts = d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) + ' ' + d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-      const preview = t.thought.length > 120 ? t.thought.slice(0,120)+'...' : t.thought;
-      const analysis = t.analysis || {};
-      const actions = (analysis.actions||[]).slice(0,3).map((a,j)=>`<div class="thought-action-item">0${j+1}. ${esc(a.step)}</div>`).join('');
-      return `
-        <div class="thought-row" onclick="this.classList.toggle('expanded')">
-          <div class="thought-meta">
-            <span class="thought-time">${ts}</span>
-            <span class="thought-mode-tag ${t.mode}">${t.mode}</span>
-          </div>
-          <div class="thought-preview">${esc(preview)}</div>
-          <div class="thought-full">
-            ${analysis.situation ? `<div class="thought-situation">📌 ${esc(analysis.situation)}</div>` : ''}
-            ${actions ? `<div class="thought-actions-preview">${actions}</div>` : ''}
-          </div>
-        </div>`;
-    }).join('');
-  } catch(e) {
-    list.innerHTML = `<div class="dash-empty" style="color:var(--accent2)">Error: ${e.message}</div>`;
-  }
-}
-
-document.getElementById('modalOverlay').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
-document.getElementById('hostPassword').addEventListener('keydown', e=>{ if(e.key==='Enter') hostLogin(); });
-
-// ═══════════════════════════════════════════════
-//  UTILS
-// ═══════════════════════════════════════════════
-function setLoading(on) {
-  document.getElementById('loadingBar').classList.toggle('active', on);
-  document.getElementById('loadingText').classList.toggle('active', on);
-  analyzeBtn.disabled = on;
-  analyzeBtn.textContent = on ? 'ANALYZING...' : 'ANALYZE';
-}
-function showError(msg) { const el = document.getElementById('errorBox'); el.textContent = `ERROR // ${msg}`; el.classList.add('visible'); }
-function hideError() { document.getElementById('errorBox').classList.remove('visible'); }
-function resetForm() {
-  textarea.value = '';
-  charCount.textContent = '0 characters';
-  document.getElementById('outputSection').classList.remove('visible');
-  document.getElementById('cardsGrid').innerHTML = '';
-  document.getElementById('patternSection').style.display = 'none';
-  hideError();
-  window.scrollTo({top:0,behavior:'smooth'});
-  textarea.focus();
-}
-function esc(str) {
-  if (!str) return '';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
 </script>
 </body>
 </html>

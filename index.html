@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OVERTHINKING KILLER // V2</title>
+<title>OVERTHINKING KILLER // V3.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
 <style>
@@ -27,248 +27,225 @@
   .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
 
   header { padding: 48px 0 32px; border-bottom: 1px solid var(--border); animation: fadeDown 0.6s ease both; }
-  .header-inner { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   .logo { font-family: var(--display); font-size: clamp(44px, 8vw, 80px); letter-spacing: 2px; line-height: 0.9; }
   .logo span { color: var(--accent); display: block; }
   .tagline { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 12px; }
-  .version-badge { font-family: var(--mono); font-size: 10px; color: var(--accent); border: 1px solid var(--accent); padding: 4px 8px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
 
   .input-section { padding: 48px 0 0; animation: fadeUp 0.7s ease 0.1s both; }
   .section-label { font-family: var(--mono); font-size: 10px; color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
   .section-label::before { content: '//'; color: var(--accent); }
-  .input-prompt { font-size: 18px; font-weight: 300; color: var(--text-dim); margin-bottom: 20px; font-style: italic; line-height: 1.5; }
-  .input-prompt strong { color: var(--text); font-style: normal; font-weight: 600; }
 
-  .input-wrapper { position: relative; border: 1px solid var(--border); background: var(--surface); transition: border-color 0.2s; }
-  .input-wrapper:focus-within { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 32px rgba(232,255,71,0.04); }
-  .input-corner { position: absolute; width: 8px; height: 8px; border-color: var(--accent); border-style: solid; opacity: 0; transition: opacity 0.2s; }
-  .input-wrapper:focus-within .input-corner { opacity: 1; }
-  .input-corner.tl { top:-1px; left:-1px; border-width:2px 0 0 2px; }
-  .input-corner.tr { top:-1px; right:-1px; border-width:2px 2px 0 0; }
-  .input-corner.bl { bottom:-1px; left:-1px; border-width:0 0 2px 2px; }
-  .input-corner.br { bottom:-1px; right:-1px; border-width:0 2px 2px 0; }
-
-  textarea { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-family: var(--sans); font-size: 16px; font-weight: 300; line-height: 1.7; padding: 24px; resize: none; min-height: 160px; caret-color: var(--accent); }
-  textarea::placeholder { color: var(--text-muted); font-style: italic; }
+  .input-wrapper { position: relative; border: 1px solid var(--border); background: var(--surface); }
+  .input-wrapper:focus-within { border-color: var(--accent); }
+  textarea { width: 100%; background: transparent; border: none; outline: none; color: var(--text); font-family: var(--sans); font-size: 16px; padding: 24px; resize: none; min-height: 160px; caret-color: var(--accent); }
+  
   .input-footer { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-top: 1px solid var(--border); }
-  .char-count { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
-
   .mode-selector { display: flex; background: var(--bg); border: 1px solid var(--border); padding: 3px; }
-  .mode-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+  .mode-btn { font-family: var(--mono); font-size: 10px; padding: 6px 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; }
   .mode-btn.active { background: var(--accent2); color: #000; font-weight: 700; }
 
-  .analyze-row { margin-top: 20px; display: flex; align-items: center; gap: 16px; animation: fadeUp 0.7s ease 0.2s both; }
-  .analyze-btn { font-family: var(--display); font-size: 22px; letter-spacing: 3px; padding: 16px 40px; background: var(--accent); color: #000; border: none; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; flex-shrink: 0; }
-  .analyze-btn:hover { background: #d4eb3d; }
+  .analyze-btn { font-family: var(--display); font-size: 22px; letter-spacing: 3px; padding: 16px 40px; background: var(--accent); color: #000; border: none; cursor: pointer; margin-top: 20px; }
 
   .loading-bar { height: 2px; background: var(--border); margin: 32px 0; position: relative; display: none; }
   .loading-bar.active { display: block; }
-  .loading-bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 40%; background: var(--accent); animation: loadSlide 1s ease-in-out infinite; }
+  .loading-bar::after { content: ''; position: absolute; height: 100%; width: 40%; background: var(--accent); animation: loadSlide 1s infinite; }
   @keyframes loadSlide { 0% { left: -40%; } 100% { left: 100%; } }
 
   .output-section { margin-top: 48px; padding-bottom: 80px; display: none; }
   .output-section.visible { display: block; }
-  .output-title { font-family: var(--display); font-size: 32px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; }
 
-  .cards-grid { display: flex; flex-direction: column; gap: 4px; }
-  .card { background: var(--surface); border-left: 3px solid var(--accent); margin-bottom: 2px; }
-  .card-header { padding: 15px 20px; background: var(--surface2); display: flex; justify-content: space-between; cursor: pointer; }
-  .card-label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--accent); }
-  .card-body { padding: 20px 20px 20px 40px; }
+  .card { background: var(--surface); border-left: 3px solid var(--accent); margin-bottom: 8px; animation: fadeUp 0.4s ease forwards; }
+  .card-header { padding: 15px 20px; background: var(--surface2); font-family: var(--mono); font-size: 11px; color: var(--accent); text-transform: uppercase; }
+  .card-body { padding: 20px; line-height: 1.6; }
 
-  .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .control-col-label { font-family: var(--mono); font-size: 10px; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; }
-  .control-items { list-style: none; font-size: 14px; color: var(--text-dim); }
-  .control-items li { margin-bottom: 5px; }
-  .brutal-callout { background: rgba(255,71,71,0.1); border: 1px solid var(--accent2); padding: 15px; margin-top: 15px; color: var(--accent2); font-style: italic; font-size: 14px; }
-  .reset-btn { margin-top: 30px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 10px 20px; cursor: pointer; font-family: var(--mono); font-size: 10px; }
+  .solution-item { border-bottom: 1px solid var(--border); padding: 12px 0; }
+  .solution-item:last-child { border: none; }
+  .sol-tag { color: var(--accent); font-family: var(--mono); font-size: 10px; margin-right: 8px; }
 
-  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+  .brutal-box { background: rgba(255, 71, 71, 0.1); border: 1px solid var(--accent2); padding: 16px; color: var(--accent2); font-style: italic; margin-top: 12px; }
+  
+  @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
 </style>
 </head>
 <body>
 
 <div class="container">
   <header>
-    <div class="header-inner">
-      <div>
-        <div class="logo">OVER<span>THINKING</span>KILLER</div>
-        <div class="tagline">Weighted Logic Engine V2.0 // No AI</div>
-      </div>
-      <div class="version-badge">STABLE</div>
-    </div>
+    <div class="logo">OVER<span>THINKING</span>KILLER</div>
+    <div class="tagline">Weighted Solution Engine V3.0 // Systemic Clarity</div>
   </header>
 
   <section class="input-section">
-    <div class="section-label">Input Neural Dump</div>
-    <p class="input-prompt">Describe the loop in your head.</p>
+    <div class="section-label">Neural Dump</div>
     <div class="input-wrapper">
-      <textarea id="thoughtInput" placeholder='e.g., "I keep worrying about the exam tomorrow because I haven't studied..."'></textarea>
+      <textarea id="thoughtInput" placeholder='Dump the messy thoughts here...'></textarea>
       <div class="input-footer">
-        <span class="char-count" id="charCount">0 characters</span>
+        <span id="charCount" style="font-size:10px; color:var(--text-muted); font-family:var(--mono)">0 chars</span>
         <div class="mode-selector">
           <button class="mode-btn active" data-mode="standard">Standard</button>
           <button class="mode-btn" data-mode="brutal">Brutal</button>
         </div>
       </div>
     </div>
+    <button class="analyze-btn" id="analyzeBtn">ANALYZE SYSTEM</button>
   </section>
-
-  <div class="analyze-row">
-    <button class="analyze-btn" id="analyzeBtn">ANALYZE</button>
-  </div>
 
   <div class="loading-bar" id="loadingBar"></div>
 
   <section class="output-section" id="outputSection">
-    <div class="output-title">LOGIC BREAKDOWN</div>
-    <div class="cards-grid" id="cardsGrid"></div>
-    <button class="reset-btn" onclick="location.reload()">↺ NEW SESSION</button>
+    <div id="cardsGrid"></div>
+    <button onclick="location.reload()" style="background:none; border:1px solid var(--border); color:var(--text-dim); padding:10px; cursor:pointer; font-family:var(--mono); font-size:10px; margin-top:20px;">↺ RESET SYSTEM</button>
   </section>
 </div>
 
 <script>
 // ═══════════════════════════════════════════════
-//  RULE ENGINE V2 (Weighted & Randomized)
+//  RULE DATABASE: CATEGORIES & SOLUTIONS
 // ═══════════════════════════════════════════════
 
 const RULES = {
-  relationship: {
-    weights: { 'she':1, 'he':1, 'reply':3, 'text':2, 'left on read':5, 'ghosted':5, 'crush':3, 'seen':4, 'dating':2 },
-    situations: [
-      "You are analyzing a social interaction as if it were a forensic investigation.",
-      "Anxiety is filling the silence of a delayed response with your worst fears.",
-      "You are looking for hidden meanings in a situation that likely has none."
+  exam_anxiety: {
+    weights: { 'exam':5, 'tomorrow':4, 'study':3, 'questions':4, 'prepared':3, 'fail':4, 'midsem':5, 'mse':5 },
+    situations: ["The system is predicting a catastrophic failure based on zero data points."],
+    solutions: [
+      "The 50/10 Protocol: Deep study for 50 mins, total rest for 10. Avoid 'passive reading'; solve 3 problems instead.",
+      "Scope Management: Stop trying to master the whole syllabus. Master 60% of it perfectly. It's enough to pass and lowers anxiety.",
+      "The Worst-Case Audit: If you fail, you retake. It is a time penalty, not a life-over scenario. Re-calibrate stakes."
     ],
-    control: {
-      yours: ['Your self-respect', 'Your hobbies', 'How you spend the next hour'],
-      notYours: ['Their response time', 'Their internal mood', 'How they perceive you']
-    },
-    brutalTruths: [
-      "If you have to decode their behavior like a secret cipher, the answer is already 'No'.",
-      "One person shouldn't have this much power over your heart rate. Get a hobby.",
-      "Silence is not a puzzle; it's a boundary. Stop trying to break through it."
-    ],
-    pattern: 'relationship'
+    brutalTruths: ["Thinking about the exam isn't studying. You are using anxiety as a substitute for effort. Open the book."]
   },
-  career: {
-    weights: { 'job':2, 'boss':3, 'fired':5, 'interview':3, 'career':2, 'deadline':3, 'promotion':3, 'work':1 },
-    situations: [
-      "Professional uncertainty is triggering a survival-level threat response.",
-      "You are equating your career performance with your fundamental value as a human.",
-      "A temporary setback is being treated as a permanent career death sentence."
+  social_betrayal: {
+    weights: { 'friends':3, 'secrets':5, 'betrayal':5, 'fun':4, 'revealing':5, 'hurts':3, 'told':2 },
+    situations: ["Detection of a trust-breach in the primary social circle."],
+    solutions: [
+      "Immediate Information Blackout: These 'friends' have lost their clearance level. Stop feeding them data.",
+      "The Power-Move Silence: Do not argue. Do not explain. Just stop being available. Silence is the most expensive response.",
+      "Environment Pivot: Your current social 'hardware' is faulty. Focus on solo projects or new lab partners for 14 days."
     ],
-    control: {
-      yours: ['Your technical skills', 'Your resume updates', 'Your networking effort'],
-      notYours: ['The economy', 'The hiring manager\'s bias', 'Office politics']
-    },
-    brutalTruths: [
-      "The company would post your job opening before your obituary. Don't die for a desk.",
-      "You are catastrophizing a situation that is essentially just 'admin trouble'.",
-      "Stop thinking. Start applying. Movement is the only cure for work-guilt."
+    brutalTruths: ["If they are revealing your secrets, they aren't 'friends' having fun. They are enemies you mistakenly invited home."]
+  },
+  relationship: {
+    weights: { 'texted':4, 'reply':4, 'crush':5, 'friend':2, 'more than':5, 'he':1, 'she':1, 'ghosted':5 },
+    situations: ["The brain is stuck in a loop trying to decode external silence."],
+    solutions: [
+      "Admission of Intent: Stop saying 'he is just a friend'. Admit the crush. Vulnerability within yourself kills the anxiety of the unknown.",
+      "The 24-Hour Wait: If he hasn't texted, put your phone in a drawer. If he wants to find you, he will. If not, you have your answer.",
+      "Energy Re-Allocation: Use the 'text-waiting' energy to finish one engineering task. Turn romantic frustration into productivity."
     ],
-    pattern: 'career'
+    brutalTruths: ["No one is too busy to send a 5-second text. Silence is not a mystery; it is a lack of priority. Accept it and move on."]
+  },
+  restrictions: {
+    weights: { 'parents':5, 'outside':5, 'letting':4, 'house':3, 'stuck':3 },
+    situations: ["External constraints are causing internal pressure buildup."],
+    solutions: [
+      "The 'Negotiated Freedom' Strategy: Don't ask to go out. Propose a trade: 'I finish Module 3, I get 30 mins outside'. Use logic, not emotion.",
+      "Physical Decompression: If stuck inside, do a high-intensity 15-min workout. It forces the body to stop the flight-or-fight response.",
+      "The 'Long-Game' Mindset: This is a temporary environment. Treat it like a boring internship. It will end."
+    ],
+    brutalTruths: ["Your parents are annoying because they are scared for you. It's a bad UI, but the source code is love. Stop fighting the UI."]
   },
   default: {
-    situations: ["The system is detecting a high-frequency thought loop with no exit strategy."],
-    control: { yours: ['Focus', 'Breath', 'Next action'], notYours: ['The past', 'The unknown', 'Other people'] },
-    brutalTruths: ["Overthinking is just the ego's way of feeling productive without doing work."],
-    pattern: 'other'
+    weights: {},
+    situations: ["General systemic overthinking detected."],
+    solutions: ["Break the current task into 5-minute chunks.", "Drink 500ml of water and walk for 5 minutes.", "Write down the #1 thing you are avoiding and do it for 60 seconds."],
+    brutalTruths: ["You already know what to do. You're just here to avoid doing it."]
   }
 };
 
 // ═══════════════════════════════════════════════
-//  CORE LOGIC
+//  ENGINE LOGIC
 // ═══════════════════════════════════════════════
 
 function analyze() {
   const input = document.getElementById('thoughtInput').value.trim();
-  if (input.length < 10) return alert("Dump more thoughts first.");
-
+  if (input.length < 10) return alert("System requires more data. Please describe your situation more fully.");
+  
   const mode = document.querySelector('.mode-btn.active').dataset.mode;
   document.getElementById('loadingBar').classList.add('active');
 
   setTimeout(() => {
-    const analysis = runEngine(input, mode);
-    render(analysis);
+    const result = runLogic(input, mode);
+    renderOutput(result);
     document.getElementById('loadingBar').classList.remove('active');
     document.getElementById('outputSection').classList.add('visible');
     document.getElementById('outputSection').scrollIntoView({behavior:'smooth'});
-  }, 1000);
+  }, 800);
 }
 
-function runEngine(text, mode) {
+function runLogic(text, mode) {
   const lower = text.toLowerCase();
-  let selected = RULES.default;
+  let bestCat = 'default';
   let maxScore = 0;
 
-  // Weighted Category Detection
-  for (const [key, rule] of Object.entries(RULES)) {
-    if (!rule.weights) continue;
+  // Weight Calculation
+  for (const [cat, rule] of Object.entries(RULES)) {
     let score = 0;
     for (const [word, weight] of Object.entries(rule.weights)) {
       if (lower.includes(word)) score += weight;
     }
     if (score > maxScore) {
       maxScore = score;
-      selected = rule;
+      bestCat = cat;
     }
   }
 
-  // Subject Extraction (The "Echo")
-  let subject = "the current situation";
-  const markers = ["about ", "over ", "because "];
+  const selected = RULES[bestCat];
+
+  // Subject Extraction Logic
+  let subject = "Unknown Variable";
+  const markers = ["about ", "over ", "because ", "worried "];
   for (let m of markers) {
     if (lower.includes(m)) {
-      let part = text.split(new RegExp(m, 'i'))[1];
-      subject = part.split(/[.!,]/)[0]; // Grab until punctuation
+      subject = text.split(new RegExp(m, 'i'))[1].split(/[.!,]/)[0];
       break;
     }
   }
 
   return {
     subject: subject,
-    situation: pick(selected.situations),
-    yours: selected.control.yours,
-    notYours: selected.control.notYours,
-    brutal: mode === 'brutal' ? pick(selected.brutalTruths) : null
+    situation: selected.situations[0],
+    solutions: selected.solutions,
+    brutal: mode === 'brutal' ? selected.brutalTruths[0] : null
   };
 }
 
-function render(data) {
+function renderOutput(data) {
   const grid = document.getElementById('cardsGrid');
   grid.innerHTML = `
     <div class="card">
-      <div class="card-header"><span class="card-label">The Subject</span></div>
-      <div class="card-body">Target Identified: <strong>${data.subject}</strong>.</div>
+      <div class="card-header">Target Analysis</div>
+      <div class="card-body">Obsession focus: <span style="color:var(--accent)">${data.subject}</span></div>
     </div>
     <div class="card">
-      <div class="card-header"><span class="card-label">Analysis</span></div>
+      <div class="card-header">Systemic Diagnosis</div>
       <div class="card-body">${data.situation}</div>
     </div>
-    <div class="card">
-      <div class="card-header"><span class="card-label">Control Matrix</span></div>
+    <div class="card" style="border-left-color: #5599ff">
+      <div class="card-header" style="color:#5599ff">Actionable Solutions</div>
       <div class="card-body">
-        <div class="control-grid">
-          <div><div class="control-col-label">Yours</div><ul class="control-items">${data.yours.map(i=>`<li>→ ${i}</li>`).join('')}</ul></div>
-          <div><div class="control-col-label">External</div><ul class="control-items">${data.notYours.map(i=>`<li>✕ ${i}</li>`).join('')}</ul></div>
-        </div>
+        ${data.solutions.map(sol => `
+          <div class="solution-item">
+            <span class="sol-tag">[FIX]</span> ${sol}
+          </div>
+        `).join('')}
       </div>
     </div>
   `;
 
   if (data.brutal) {
-    grid.innerHTML += `<div class="brutal-callout"><strong>BRUTAL TRUTH:</strong><br>${data.brutal}</div>`;
+    grid.innerHTML += `
+      <div class="brutal-box">
+        <strong>⚠️ BRUTAL OVERRIDE:</strong><br>${data.brutal}
+      </div>
+    `;
   }
 }
 
-function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-// UI Helpers
+// UI HANDLERS
 document.getElementById('analyzeBtn').addEventListener('click', analyze);
 document.getElementById('thoughtInput').addEventListener('input', (e) => {
-  document.getElementById('charCount').textContent = e.target.value.length + " characters";
+  document.getElementById('charCount').textContent = e.target.value.length + " chars";
 });
 document.querySelectorAll('.mode-btn').forEach(btn => {
   btn.addEventListener('click', () => {

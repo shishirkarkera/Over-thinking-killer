@@ -509,4 +509,1035 @@ input[type=range]::-webkit-slider-thumb{
 }
 input[type=range]::-webkit-slider-thumb:active{transform:scale(1.2)}
 
-  
+.bl-btn-primary{
+  width:100%;background:linear-gradient(135deg,var(--bl-accent),#c04060);
+  border:none;border-radius:14px;padding:16px;
+  font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:500;
+  color:#fff;cursor:pointer;letter-spacing:.04em;
+  transition:all .2s ease;box-shadow:0 6px 24px rgba(232,99,122,.28);
+  margin-bottom:14px;
+}
+.bl-btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(232,99,122,.42)}
+.bl-btn-primary:active{transform:scale(.98)}
+.bl-btn-primary:disabled{opacity:.38;cursor:not-allowed;transform:none;box-shadow:none}
+.bl-btn-ghost{
+  background:transparent;border:none;color:var(--muted);
+  font-family:'DM Sans',sans-serif;font-size:.8rem;cursor:pointer;text-decoration:underline;
+  display:block;margin:0 auto 4px;transition:color .2s;
+}
+.bl-btn-ghost:hover{color:var(--bl-accent2)}
+
+/* Bloom plan output */
+.plan-hero{
+  background:var(--bl-card2);border:1.5px solid var(--bl-border);
+  border-radius:20px;padding:22px;margin-bottom:14px;
+}
+.mood-badge{
+  background:rgba(232,99,122,.12);border:1px solid rgba(232,99,122,.25);
+  border-radius:99px;padding:4px 12px;font-size:.72rem;color:var(--bl-accent2);letter-spacing:.06em;
+}
+.plan-title-bl{
+  font-family:'Playfair Display',serif;font-size:1.4rem;
+  color:var(--bl-accent2);font-weight:600;margin-bottom:4px;margin-top:10px;
+}
+.plan-sub{font-size:.82rem;color:var(--muted);line-height:1.5}
+
+.plan-card{
+  background:var(--bl-card);border:1.5px solid var(--bl-border);
+  border-radius:18px;padding:20px;margin-bottom:12px;transition:border-color .2s;
+}
+.plan-card:hover{border-color:rgba(232,99,122,.28)}
+.pch{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.pci{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0}
+.pci.heat{background:rgba(242,196,160,.13)}
+.pci.food{background:rgba(140,200,100,.11)}
+.pci.drink{background:rgba(100,160,220,.11)}
+.pci.avoid{background:rgba(220,80,80,.11)}
+.pci.move{background:rgba(180,130,220,.11)}
+.pci.mood-care{background:rgba(245,208,138,.12)}
+.pct{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--bl-accent2);font-weight:600}
+
+.bl-items{display:flex;flex-direction:column;gap:8px}
+.bl-item{display:flex;align-items:flex-start;gap:9px;font-size:.85rem;line-height:1.5;color:#c8a8b4}
+.bl-dot{width:5px;height:5px;border-radius:50%;background:var(--bl-accent);flex-shrink:0;margin-top:6px;opacity:.7}
+.bl-item strong{color:var(--text);font-weight:500}
+.bl-item.bad{color:#b89090}
+.bl-item.bad .bl-dot{background:var(--bl-avoid)}
+
+.stretch-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:4px}
+.scard{background:var(--bl-surface);border-radius:11px;padding:12px 8px;text-align:center;font-size:.74rem;color:var(--muted);line-height:1.4}
+.scard span{display:block;font-size:1.4rem;margin-bottom:4px}
+.scard strong{display:block;color:var(--text);font-size:.78rem;margin-bottom:2px}
+
+.cmsg{
+  background:rgba(232,99,122,.07);border:1.5px solid rgba(232,99,122,.18);
+  border-radius:18px;padding:20px 22px;text-align:center;margin-top:20px;margin-bottom:12px;
+}
+.cmsg p{
+  font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;
+  color:var(--bl-accent2);line-height:1.65;margin-bottom:14px;
+}
+.mood-affirmation{
+  background:rgba(158,207,176,.07);border:1.5px solid rgba(158,207,176,.18);
+  border-radius:14px;padding:14px 18px;margin-bottom:12px;
+}
+.mood-affirmation p{font-size:.85rem;color:#b8d8c4;line-height:1.6}
+.mood-affirmation strong{color:#9ecfb0}
+
+.bl-btn-outline{
+  background:transparent;border:1.5px solid var(--bl-accent);
+  color:var(--bl-accent);border-radius:10px;padding:8px 18px;
+  font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;
+  cursor:pointer;transition:all .2s;letter-spacing:.04em;
+}
+.bl-btn-outline:hover{background:var(--bl-accent);color:#fff}
+
+/* bloom footer */
+.bl-footer{text-align:center;margin-top:32px;}
+
+/* ═══════════════════════════════════
+   HOST DASHBOARD MODAL
+═══════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;
+  display:none;align-items:flex-start;justify-content:center;
+  overflow-y:auto;padding:40px 16px;
+}
+.modal-overlay.visible{display:flex}
+.modal{background:#111;border:1px solid #2a2a2a;width:100%;max-width:900px}
+.modal-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px;border-bottom:1px solid #2a2a2a;background:#1a1a1a;
+}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--ok-accent)}
+.modal-close{font-family:'IBM Plex Mono',monospace;font-size:18px;color:#888;background:none;border:none;cursor:pointer;padding:4px 8px}
+.modal-close:hover{color:var(--text)}
+.host-login{padding:48px 32px;display:flex;flex-direction:column;gap:16px;max-width:400px}
+.host-login-title{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#555}
+.host-login-title::before{content:'// ';color:var(--ok-accent)}
+.host-input{
+  background:#0a0a0a;border:1px solid #2a2a2a;color:var(--text);
+  font-family:'IBM Plex Mono',monospace;font-size:14px;padding:12px 16px;
+  outline:none;width:100%;transition:border-color .15s;
+}
+.host-input:focus{border-color:var(--ok-accent)}
+.host-login-btn{
+  font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;
+  padding:12px 24px;background:var(--ok-accent);color:#000;border:none;cursor:pointer;align-self:flex-start;
+}
+.login-error{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ok-red);display:none}
+.login-error.visible{display:block}
+.dashboard{display:none;padding:24px}
+.dashboard.visible{display:block}
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:24px}
+.dash-stat{background:#1a1a1a;padding:16px;text-align:center}
+.dash-stat-num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--ok-accent);line-height:1}
+.dash-stat-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;color:#555;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+.thoughts-list{display:flex;flex-direction:column;gap:3px;max-height:500px;overflow-y:auto}
+.thought-row{background:#1a1a1a;border-left:3px solid #2a2a2a;padding:14px 16px;cursor:pointer;transition:background .15s}
+.thought-row:hover{background:#222}
+.thought-row.expanded{border-left-color:var(--ok-accent)}
+.thought-meta{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.thought-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#555}
+.thought-mode-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 6px;letter-spacing:.1em;text-transform:uppercase}
+.thought-mode-tag.standard{border:1px solid #2a2a2a;color:#555}
+.thought-mode-tag.brutal{border:1px solid var(--ok-red);color:var(--ok-red)}
+.thought-preview{font-size:14px;font-weight:300;color:#888;line-height:1.5}
+.thought-full{margin-top:12px;padding-top:12px;border-top:1px solid #2a2a2a;display:none}
+.thought-row.expanded .thought-full{display:block}
+.thought-situation{font-size:13px;color:var(--text);margin-bottom:8px}
+.thought-actions-preview{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.thought-action-item{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ok-accent)}
+.dash-empty{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#555;padding:32px;text-align:center}
+.dash-refresh{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  padding:10px 20px;background:transparent;border:1px solid #2a2a2a;color:#888;
+  cursor:pointer;transition:all .15s;margin-bottom:16px;
+}
+.dash-refresh:hover{border-color:var(--ok-accent);color:var(--ok-accent)}
+
+/* ═══════════════════════════════════
+   SHARED ANIMATIONS
+═══════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:600px){
+  .mode-cards{grid-template-columns:1fr}
+  .ctrl-grid{grid-template-columns:1fr}
+  .dash-stats{grid-template-columns:repeat(2,1fr)}
+  .card-body{padding:16px}
+  .ok-analyze-row{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ CONFIG ═══════════════ -->
+<script>
+const HOST_PASSWORD = 'killer2025';
+const SUPABASE_URL  = 'https://wnlimguvvaewortwvnzm.supabase.co';
+const SUPABASE_KEY  = 'sb_publishable_X7FXM8C-rTuHWv7_USkkKg_mS3O77Jq';
+</script>
+
+<!-- ═══════════════ HOST MODAL ═══════════════ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title">HOST DASHBOARD</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="host-login" id="hostLogin">
+      <div class="host-login-title">Access</div>
+      <input type="password" class="host-input" id="hostPassword" placeholder="Enter host password" onkeydown="if(event.key==='Enter')hostLogin()">
+      <div class="login-error" id="loginError">Wrong password.</div>
+      <button class="host-login-btn" onclick="hostLogin()">ENTER</button>
+    </div>
+    <div class="dashboard" id="dashboard">
+      <div class="dash-stats" id="dashStats"></div>
+      <button class="dash-refresh" onclick="loadThoughts()">↺ REFRESH</button>
+      <div class="thoughts-list" id="thoughtsList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ LANDING ═══════════════ -->
+<div id="landing">
+  <div class="land-logo">mind<em>bloom</em></div>
+  <div class="land-tagline">Think clear · Feel supported</div>
+
+  <p class="land-question">What do you need right now?</p>
+
+  <div class="mode-cards">
+    <div class="mode-card think" onclick="launchApp('ok')">
+      <span class="mc-icon">🧠</span>
+      <div class="mc-title-think">OVERTHINKING<br>KILLER</div>
+      <div class="mc-desc">Messy thought spirals, anxiety, relationship confusion, career stress, fear loops</div>
+    </div>
+    <div class="mode-card bloom" onclick="launchApp('bloom')">
+      <span class="mc-icon">🌸</span>
+      <div class="mc-title-bloom">bloom</div>
+      <div class="mc-desc">Period comfort, cramps, mood swings, low energy — instant relief plan</div>
+    </div>
+  </div>
+
+  <div class="land-footer" id="madeWithCare" onclick="handleCareClick()">made with care ❤️</div>
+</div>
+
+<!-- ═══════════════ MAIN APP WRAPPER ═══════════════ -->
+<div id="app">
+  <button class="back-btn" onclick="goHome()">← Home</button>
+
+  <!-- OVERTHINKING KILLER -->
+  <div id="ok-app" style="background:var(--ok-bg);min-height:100vh;">
+    <div class="ok-wrap">
+      <div class="ok-header">
+        <div class="ok-logo">OVER<span>THINKING</span>KILLER</div>
+        <div class="ok-tagline">Input messy thoughts → Output structured clarity + action</div>
+      </div>
+
+      <div class="ok-section">
+        <div class="ok-slabel">Input</div>
+        <p class="ok-prompt">What's <strong>actually</strong> going on in your head right now?</p>
+        <div class="ok-input-wrap">
+          <div class="ok-corner tl"></div><div class="ok-corner tr"></div>
+          <div class="ok-corner bl"></div><div class="ok-corner br"></div>
+          <textarea id="thoughtInput" rows="6"
+            placeholder='Just type. "She didn&apos;t text back... my exam is tomorrow... my friend told everyone my secret..."'></textarea>
+          <div class="ok-input-footer">
+            <span class="ok-char" id="charCount">0 characters</span>
+            <div class="mode-sel">
+              <button class="mode-btn active" data-mode="standard">Standard</button>
+              <button class="mode-btn" data-mode="brutal">Brutal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ok-analyze-row">
+        <button class="ok-analyze-btn" id="analyzeBtn">ANALYZE</button>
+        <p class="ok-hint">Rule-based logic.<br>No AI. No internet. Instant.</p>
+      </div>
+
+      <div class="ok-loading-bar" id="loadingBar"></div>
+      <div class="ok-loading-txt" id="loadingTxt">ANALYZING THOUGHT PATTERN...</div>
+      <div class="ok-err" id="errBox"></div>
+
+      <div class="ok-out" id="okOut">
+        <div class="ok-out-header">
+          <div class="ok-out-title">ANALYSIS</div>
+          <div class="ok-out-meta" id="okMeta"></div>
+        </div>
+        <div class="cards-grid" id="cardsGrid"></div>
+        <button class="ok-reset-btn" onclick="resetOK()">↺ ANALYZE ANOTHER THOUGHT</button>
+      </div>
+
+      <div class="ok-footer">
+        <div class="ok-footer-txt">Overthinking Killer // Think in systems, not spirals</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOOM -->
+  <div id="bloom-app" style="background:var(--bl-bg);min-height:100vh;">
+    <div class="bl-wrap">
+      <div class="bl-header">
+        <div class="bl-logo">bloo<em>m</em></div>
+        <div class="bl-tagline">Period Comfort · Instant Relief</div>
+      </div>
+      <div class="bl-steps" id="bl-step-dots">
+        <div class="bl-step-dot active" id="dot0"></div>
+        <div class="bl-step-dot" id="dot1"></div>
+        <div class="bl-step-dot" id="dot2"></div>
+      </div>
+
+      <!-- PANEL 0: Mood -->
+      <div class="bl-panel active" id="panel-mood">
+        <div class="bl-heading">Hey, how's your mood?</div>
+        <div class="bl-sub">No judgment — helps us tailor your plan.</div>
+        <div class="mood-grid">
+          <button class="mood-btn" data-mood="anxious" onclick="pickMood(this)"><span class="mood-emoji">😰</span><div class="mood-lbl">Anxious / Worried</div><div class="mood-desc-bl">Restless, overthinking</div></button>
+          <button class="mood-btn" data-mood="irritable" onclick="pickMood(this)"><span class="mood-emoji">😤</span><div class="mood-lbl">Irritable / Snappy</div><div class="mood-desc-bl">Easily annoyed</div></button>
+          <button class="mood-btn" data-mood="sad" onclick="pickMood(this)"><span class="mood-emoji">😢</span><div class="mood-lbl">Sad / Teary</div><div class="mood-desc-bl">Emotional, low</div></button>
+          <button class="mood-btn" data-mood="numb" onclick="pickMood(this)"><span class="mood-emoji">😶</span><div class="mood-lbl">Numb / Detached</div><div class="mood-desc-bl">Flat, going through motions</div></button>
+          <button class="mood-btn" data-mood="okay" onclick="pickMood(this)"><span class="mood-emoji">🙂</span><div class="mood-lbl">Actually okay</div><div class="mood-desc-bl">Managing fine</div></button>
+          <button class="mood-btn" data-mood="tired" onclick="pickMood(this)"><span class="mood-emoji">😮‍💨</span><div class="mood-lbl">Just tired</div><div class="mood-desc-bl">Drained, need rest</div></button>
+        </div>
+        <button class="bl-btn-primary" id="mood-next-btn" onclick="goToSymptoms()" disabled>Next: pick your symptoms →</button>
+        <button class="bl-btn-ghost" onclick="skipMood()">Skip mood check</button>
+      </div>
+
+      <!-- PANEL 1: Symptoms -->
+      <div class="bl-panel" id="panel-sym">
+        <div class="bl-slabel">What's bothering you right now?</div>
+        <div class="sym-grid">
+          <button class="sym-btn" data-sym="cramps" onclick="toggleSym(this)"><span class="sym-icon">🌊</span><div class="sym-name">Cramps</div></button>
+          <button class="sym-btn" data-sym="bloating" onclick="toggleSym(this)"><span class="sym-icon">🫧</span><div class="sym-name">Bloating</div></button>
+          <button class="sym-btn" data-sym="mood" onclick="toggleSym(this)"><span class="sym-icon">🌧️</span><div class="sym-name">Mood Swings</div></button>
+          <button class="sym-btn" data-sym="headache" onclick="toggleSym(this)"><span class="sym-icon">⚡</span><div class="sym-name">Headache</div></button>
+          <button class="sym-btn" data-sym="fatigue" onclick="toggleSym(this)"><span class="sym-icon">🍂</span><div class="sym-name">Low Energy</div></button>
+          <button class="sym-btn" data-sym="backpain" onclick="toggleSym(this)"><span class="sym-icon">🪨</span><div class="sym-name">Back Pain</div></button>
+        </div>
+        <div class="intensity-box">
+          <div class="bl-slabel" style="margin-bottom:0">Pain intensity</div>
+          <div class="int-row"><span style="font-size:.8rem;color:var(--muted)">Mild → Severe</span><span class="int-val" id="int-display">Mild</span></div>
+          <input type="range" id="int-slider" min="1" max="5" value="2" oninput="updateInt(this)" style="--v:25%">
+        </div>
+        <button class="bl-btn-primary" id="plan-btn" onclick="buildPlan()" disabled>Get my comfort plan →</button>
+        <button class="bl-btn-ghost" onclick="backToMood()">← Change mood</button>
+      </div>
+
+      <!-- PANEL 2: Plan -->
+      <div class="bl-panel" id="panel-plan"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════
+//  LANDING
+// ════════════════════════════════════════════════════
+let careClicks = 0;
+
+function handleCareClick(){
+  careClicks++;
+  if(careClicks >= 3){ careClicks=0; openModal(); }
+}
+
+function launchApp(which){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('app').style.display='block';
+  if(which==='ok'){
+    document.getElementById('ok-app').style.display='block';
+    document.getElementById('bloom-app').style.display='none';
+  } else {
+    document.getElementById('bloom-app').style.display='block';
+    document.getElementById('ok-app').style.display='none';
+  }
+}
+
+function goHome(){
+  document.getElementById('app').style.display='none';
+  document.getElementById('landing').style.display='flex';
+  resetOK();
+  resetBloom();
+}
+
+// ════════════════════════════════════════════════════
+//  RULE ENGINE — OVERTHINKING KILLER
+// ════════════════════════════════════════════════════
+
+const RULES = {
+
+  exam: {
+    keywords:['exam','test','study','studying','marks','grade','fail','paper','result','tomorrow','presentation','assignment','quiz','board','score','pass','revision','nervous about','anxious about'],
+    variants:[
+      {
+        situation:'You have an exam coming up and anxiety is treating it like a catastrophe rather than a challenge.',
+        validation:'Exam anxiety is real and it is your brain trying to protect you. But right now it is working against you. Let\'s fix that.',
+        control:{yours:['How you use the time left','What you choose to revise','Your sleep and food tonight','How you talk to yourself'],notYours:['The questions that will come','How others perform','What you didn\'t study already','The outcome']},
+        worstCase:'You perform below your expectation. That is painful, not permanent. One exam does not define your path.',
+        realityCheck:[
+          {tag:'exaggeration',text:'Your brain is treating this exam like it decides your entire future. It doesn\'t. Even if it goes badly.'},
+          {tag:'bias',text:'You are focused entirely on what you don\'t know, ignoring everything you do know.'},
+          {tag:'fact',text:'Some anxiety before an exam actually improves performance. The problem is too much of it, not any of it.'},
+          {tag:'reframe',text:'You have prepared something. Even partial preparation is real preparation.'}
+        ],
+        solutions:[
+          {step:'TONIGHT',action:'Do one focused revision session — max 90 minutes',why:'More than that and you are draining the energy you need for tomorrow. Quality over hours.',script:'I will revise the most important topics for 90 mins then stop.'},
+          {step:'BEFORE BED',action:'Sleep at a normal time — don\'t stay up all night',why:'Sleep consolidates memory. Staying up destroys recall. This is not optional advice.',script:null},
+          {step:'MORNING OF',action:'Eat a proper breakfast and arrive early',why:'Low blood sugar tanks performance. Rushing creates panic. These two things are in your control.'},
+        ],
+        brutalTruth:'Panicking right now is using the exact energy you need for tomorrow. Choose: spiral tonight, or prepare and sleep.',
+        comfort:null,
+        pattern:'fear'
+      },
+      {
+        situation:'Exam anxiety has taken over — your brain is convinced something terrible is about to happen.',
+        validation:'That tight chest, racing thoughts about failing — that is your nervous system being unhelpful. You can work with it.',
+        control:{yours:['Your study plan for tonight','Your sleep','Your mindset going in','What you eat and drink'],notYours:['The exam questions','Other students','The result']},
+        worstCase:'You don\'t do as well as you hoped. You feel disappointed. Then you figure out the next step. That is always how it works.',
+        realityCheck:[
+          {tag:'assumption',text:'You are assuming the worst outcome before the exam has even started. That assumption is not evidence.'},
+          {tag:'bias',text:'When anxious, you overestimate difficulty and underestimate your own ability. Both are distortions.'},
+          {tag:'fact',text:'You have passed exams before. That is a fact about you, not luck.'},
+          {tag:'reframe',text:'Nervousness and readiness feel the same in the body. Reframe the physical sensation.'}
+        ],
+        solutions:[
+          {step:'RIGHT NOW',action:'Write down the top 3 topics most likely to appear and revise only those',why:'Focused revision beats panicked cramming every time.',script:null},
+          {step:'TONIGHT',action:'4-7-8 breathing for 5 minutes before sleep',why:'Inhale 4 sec, hold 7, exhale 8. Drops cortisol and helps you sleep faster.',script:null},
+          {step:'EXAM DAY',action:'Read every question once before answering any',why:'Your brain will start working on answers in the background while you read. Uses your time better.',script:null},
+        ],
+        brutalTruth:'The exam does not care about your anxiety. It just needs your answers. So let\'s get you to a place where you can give them.',
+        comfort:null,
+        pattern:'fear'
+      }
+    ]
+  },
+
+  parents: {
+    keywords:['parents','mum','mom','dad','father','mother','not letting','can\'t go out','not allowed','grounded','strict','controlling','won\'t let me','family','home','rules','curfew','permission','they don\'t understand','they never let'],
+    variants:[
+      {
+        situation:'You feel restricted by your parents\' rules and it\'s creating frustration and a sense of being trapped.',
+        validation:'Feeling controlled when you want independence is genuinely difficult. That frustration is valid. Let\'s think about what you can actually do.',
+        control:{yours:['How you communicate your needs','Whether you show you\'re responsible','Your attitude in the conversation','What compromise you propose'],notYours:['Their final decision','Their fears for you','Their upbringing that shaped their rules']},
+        worstCase:'They don\'t change the rules right now. That is frustrating, not permanent. You will have more independence over time.',
+        realityCheck:[
+          {tag:'assumption',text:'You may be interpreting their restriction as a personal attack. Most of the time it comes from fear and worry, not control for its own sake.'},
+          {tag:'fact',text:'Arguing or getting upset rarely changes a parent\'s mind. It usually hardens their position.'},
+          {tag:'reframe',text:'Showing you are trustworthy in small ways builds the case for more freedom. It takes time but it works.'},
+          {tag:'bias',text:'When frustrated, it feels like they will never understand. That feeling is real but it is not a prediction of the future.'}
+        ],
+        solutions:[
+          {step:'STEP 1',action:'Wait until everyone is calm, then have a real conversation — not a fight',why:'Emotions shut down listening. Calm gets results.',script:'"I feel like I need a bit more freedom. Can we talk about what would make you comfortable with that?"'},
+          {step:'STEP 2',action:'Propose a specific, reasonable compromise',why:'Vague requests get vague no\'s. Specific proposals are harder to refuse.',script:'"Can I go out for 2 hours and text you when I arrive and leave? I want to show you I\'m responsible."'},
+          {step:'STEP 3',action:'Build trust through consistent small actions',why:'Every time you do what you said you would, you are building credit for future freedom.',script:null},
+        ],
+        brutalTruth:'Getting angry and arguing will delay your freedom, not accelerate it. The fastest route to more independence is showing you can handle what you already have.',
+        comfort:null,
+        pattern:'other'
+      },
+      {
+        situation:'You feel like your parents\' restrictions are stopping you from living a normal life.',
+        validation:'Wanting independence while living under strict rules is a real tension. You are not overreacting.',
+        control:{yours:['How you respond to the rules','What you say and when you say it','Whether you choose to build trust or burn it'],notYours:['Their past experiences that made them protective','Their current worry level','How long this phase lasts']},
+        worstCase:'Things stay the same for a while longer. That is hard but temporary — your situation will change as you get older.',
+        realityCheck:[
+          {tag:'fact',text:'Most strict parents are driven by fear of something happening to you — not disrespect for you.'},
+          {tag:'assumption',text:'It feels like they will never change their mind. But people do change when they see evidence that their worry is unnecessary.'},
+          {tag:'reframe',text:'Every act of responsibility is quiet proof that their restrictions can be loosened. It\'s slow but it\'s real.'},
+        ],
+        solutions:[
+          {step:'SHORT TERM',action:'Find one thing you can do within the current limits that you enjoy',why:'Obsessing over what you can\'t do makes you miserable. Finding what you can do gives you some control back.',script:null},
+          {step:'MEDIUM TERM',action:'Pick a calm moment and express how you feel — once, clearly, without anger',why:'Parents often don\'t know how much restrictions are affecting you unless you say it properly.',script:'"I feel a bit stuck lately and I miss having more freedom. I know you worry, and I want to show you that\'s not necessary."'},
+          {step:'LONG TERM',action:'Consistently follow through on the small agreements you do have',why:'Trust is the currency of freedom at home. Spend it carefully.',script:null},
+        ],
+        brutalTruth:'If you fight every rule, they tighten them. If you work within them and demonstrate reliability, they loosen. That\'s the actual game being played.',
+        comfort:null,
+        pattern:'other'
+      }
+    ]
+  },
+
+  friendship: {
+    keywords:['friend','friends','secret','told everyone','betrayed','betrayal','making fun','bullying','excluding','left out','talking behind','rumour','gossip','hurt me','they said','backstab','reveal','trust','loyalty','group','used me','fake friend','toxic'],
+    variants:[
+      {
+        situation:'Someone you trusted revealed your secret or made fun of you, and that betrayal genuinely hurts.',
+        validation:'Betrayal by a friend is one of the most painful things. You trusted them and they broke that. Your hurt is completely valid — you don\'t need to minimise it.',
+        control:{yours:['How you respond to them','Who you choose to trust going forward','Whether you confront or create distance','How much energy you give this'],notYours:['What they already did','What others think right now','Their choices']},
+        worstCase:'Some people now know your secret and you lose closeness with this person. That is a real loss. You will build better connections who deserve your trust.',
+        realityCheck:[
+          {tag:'fact',text:'What they did reflects their character, not your worth. People who betray trust are showing who they are.'},
+          {tag:'assumption',text:'It may feel like everyone is judging you — but most people move on from others\' drama faster than you expect.'},
+          {tag:'bias',text:'The pain is loudest right now. In a few weeks, this will feel different, even if it doesn\'t feel like it today.'},
+          {tag:'reframe',text:'This is painful information about who this person actually is. Now you know. That\'s actually useful.'}
+        ],
+        solutions:[
+          {step:'RIGHT NOW',action:'Do not react publicly or send an angry message today',why:'Anything you say in this emotional state will be remembered and potentially used against you. Wait.',script:null},
+          {step:'WHEN READY',action:'Decide: confront or quietly create distance',why:'Both are valid. Confronting gives you closure but requires them to care. Distance protects you regardless of their response.',script:'"What you shared was private and it hurt me. I need you to know that."'},
+          {step:'GOING FORWARD',action:'Be more selective — not closed, just selective — about who you share deep things with',why:'This isn\'t about becoming guarded. It\'s about matching your trust level to people who\'ve earned it.',script:null},
+        ],
+        brutalTruth:'You cannot control what they did. You can control who gets that access to you going forward. Use this as information.',
+        comfort:'You deserve friends who protect what you share with them. This person showed you they are not that friend. That clarity, though painful, is a gift.',
+        pattern:'relationship'
+      },
+      {
+        situation:'Friends are mocking you or making you feel excluded and the pain of that is real.',
+        validation:'Being made fun of or left out by people you considered friends hits differently. That is not weakness to admit.',
+        control:{yours:['Whether you engage with the mockery','Who you spend your energy on','How you treat yourself during this','Whether you speak up or step back'],notYours:['Their behaviour','Why they are choosing to act this way','What they say to others']},
+        worstCase:'This friendship group is not actually a safe place for you. That is a painful realisation but also a freeing one.',
+        realityCheck:[
+          {tag:'fact',text:'People who genuinely respect you don\'t mock you. What you\'re experiencing is not friendship.'},
+          {tag:'bias',text:'It\'s easy to assume you must have done something wrong. But cruelty is often about the person being cruel, not you.'},
+          {tag:'reframe',text:'The fact that this hurts means your standards for friendship are right. Protect those standards.'},
+        ],
+        solutions:[
+          {step:'IMMEDIATELY',action:'Reduce time and emotional investment in this group',why:'You cannot change how they treat you but you can change how much exposure you have to it.',script:null},
+          {step:'IF IT CONTINUES',action:'Address it directly, once, clearly',why:'Sometimes people don\'t realise the impact. If they do realise and don\'t stop, that tells you everything.',script:'"When you make fun of me, even if you think it\'s a joke, it genuinely hurts. I need that to stop."'},
+          {step:'ALONGSIDE THIS',action:'Invest in one or two people outside this group',why:'Isolation makes bad dynamics feel inescapable. Other connections create real options.',script:null},
+        ],
+        brutalTruth:'If you keep seeking acceptance from people who mock you, you are teaching them that it is acceptable. You deserve better — but you have to start acting like it.',
+        comfort:'The people who are worth your time will never make you feel small for being yourself.',
+        pattern:'relationship'
+      }
+    ]
+  },
+
+  feelings: {
+    keywords:['he hasn\'t texted','she hasn\'t texted','just a friend','more than a friend','feelings for','like him','like her','have feelings','falling for','confused about','crush','can\'t stop thinking','i think i like','not sure if','friend but i','butterflies','just friends but','do they like me'],
+    variants:[
+      {
+        situation:'You have feelings for someone you\'ve been calling "just a friend" — and that gap between what you feel and what you\'ve admitted is creating confusion and anxiety.',
+        validation:'Catching feelings for a friend is one of the most confusing, vulnerable places to be. You\'re allowed to have these feelings — having them is not a problem.',
+        control:{yours:['Whether and when you express how you feel','How you look after yourself in the uncertainty','How much you read into their behaviour'],notYours:['How they feel','Whether they feel the same','The timing of their texts or responses']},
+        worstCase:'You tell them and they don\'t feel the same. That is painful. The friendship may shift. But you will no longer be holding a secret that is slowly draining you.',
+        realityCheck:[
+          {tag:'assumption',text:'You\'re interpreting every action — a slow reply, a missed message — through the lens of unspoken feelings. That\'s not accurate data. That\'s anxiety.'},
+          {tag:'fact',text:'The anxiety you feel is not about his texting. It\'s about the gap between your unexpressed feelings and reality.'},
+          {tag:'reframe',text:'Having feelings for someone is not a mistake. It\'s information. The question is what you want to do with that information.'},
+          {tag:'bias',text:'You called him "just a friend" but the fact that you\'re this anxious about a text suggests you already know that\'s not quite true.'}
+        ],
+        solutions:[
+          {step:'FIRST',action:'Acknowledge to yourself honestly: do you have feelings beyond friendship?',why:'You cannot make any good decision while pretending to yourself that this is just about a text.',script:'Ask yourself: "If I found out tomorrow he liked someone else — how would I honestly feel?"'},
+          {step:'NEXT',action:'Stop over-analysing his texting behaviour',why:'One late reply, or even many late replies, tells you almost nothing. It is just feeding the spiral.',script:null},
+          {step:'WHEN READY',action:'If feelings are real and persistent, consider expressing them — gently and honestly',why:'Carrying unexpressed feelings for a long time is heavy. The relief of honesty is real even if the answer isn\'t what you hoped.',script:'"I\'ve been wanting to be honest with you about something — I think I\'ve developed feelings for you and I didn\'t want to pretend otherwise."'},
+        ],
+        brutalTruth:'Calling someone "just a friend" while feeling this anxious about their texts is not honesty — it\'s protection. At some point you\'ll need to decide which matters more: the safety of pretending, or the truth.',
+        comfort:'Whatever happens — whether the feelings are returned or not — you\'ll feel lighter for being honest with yourself first.',
+        pattern:'relationship'
+      },
+      {
+        situation:'You have strong feelings for someone and the uncertainty about how they feel is creating anxiety disguised as concern about their texting.',
+        validation:'Liking someone who you\'re not sure likes you back is genuinely difficult. The uncertainty is the hard part.',
+        control:{yours:['Your own honesty with yourself','Whether you choose to stay in limbo or seek clarity','How you use your time and energy right now'],notYours:['Their feelings','Their responses','The outcome']},
+        worstCase:'They don\'t feel the same. You feel hurt, then eventually you move forward — as people always do.',
+        realityCheck:[
+          {tag:'fact',text:'Anxiety about a "friend\'s" texting usually means the friendship label is doing too much work.'},
+          {tag:'assumption',text:'You\'re treating silence as rejection before anything has actually happened.'},
+          {tag:'reframe',text:'What you\'re experiencing is the specific discomfort of having unexpressed feelings. The solution is not more analysis — it\'s honesty.'},
+        ],
+        solutions:[
+          {step:'TODAY',action:'Write down your feelings — just for you, not to send',why:'Getting feelings out of your head and onto paper reduces the spiral. It also clarifies what you actually feel.',script:null},
+          {step:'SHORT TERM',action:'Stop monitoring their activity and response times',why:'Every time you check if they\'ve read your message you are reinforcing anxiety, not gathering useful information.',script:null},
+          {step:'WHEN YOU\'RE READY',action:'Move toward clarity rather than staying in uncertainty',why:'Uncertainty is the most uncomfortable place to live. Even a no gives you something to work with.',script:'"I\'ve been feeling like maybe there\'s something more here for me. I don\'t want to make things weird, I just wanted to be honest."'},
+        ],
+        brutalTruth:'You already know you have feelings for this person. The anxiety you\'re feeling isn\'t about the text — it\'s about not knowing where you stand. Only honesty resolves that.',
+        comfort:'Your feelings make sense. They don\'t make you "too much" — they make you human.',
+        pattern:'relationship'
+      }
+    ]
+  },
+
+  relationship: {
+    keywords:['she','he','her','him','reply','text','message','read','seen','left on read','ghosting','ghosted','ignoring','ignore','cold','distant','losing interest','interested','like me','loves me','dating','relationship','break up','broke up','jealous','talking to','not replying'],
+    variants:[
+      {
+        situation:'You are anxious about another person\'s behaviour and reading it as a sign something is wrong.',
+        validation:'Waiting for a reply from someone you care about is genuinely uncomfortable. That discomfort is real.',
+        control:{yours:['How you respond','What you communicate','How much energy you give this'],notYours:['Their feelings','Their decisions','When or whether they reply']},
+        worstCase:'They are genuinely losing interest. Chasing and analysing will not change that — only an honest conversation can.',
+        realityCheck:[
+          {tag:'assumption',text:'One delayed reply is not a pattern. You are treating one data point as evidence of something much larger.'},
+          {tag:'bias',text:'Anxiety makes you scan for the worst explanation. That is biology, not reality.'},
+          {tag:'fact',text:'People have bad days, busy days, and low-battery days that have nothing to do with you.'},
+        ],
+        solutions:[
+          {step:'NOW',action:'Do something unrelated for the next few hours',why:'Staring at your phone or replaying the conversation makes it worse, not better.',script:null},
+          {step:'24 HOURS',action:'If the silence genuinely feels unusual, send one simple message',why:'One clear check-in is healthy. Repeated follow-ups is not.',script:'"Hey, hope you\'re okay — when you\'re free let\'s catch up."'},
+          {step:'IF PATTERN CONTINUES',action:'Have a direct, calm conversation',why:'Assumptions left unaddressed grow. One honest conversation is worth weeks of speculation.',script:'"I\'ve been feeling a bit distant from you lately — is everything okay between us?"'},
+        ],
+        brutalTruth:'You are spending more mental energy on one person\'s reply than on anything else in your life right now. That imbalance is worth noticing.',
+        comfort:null,
+        pattern:'relationship'
+      }
+    ]
+  },
+
+  career: {
+    keywords:['job','work','career','boss','fired','quit','promotion','salary','interview','rejected','unemployed','startup','business','deadline','performance','review','layoff','resign'],
+    variants:[
+      {
+        situation:'Work or career stress has triggered a loop of anxious thinking about what might go wrong.',
+        validation:'Career uncertainty is genuinely stressful. Your brain is trying to protect you by anticipating problems.',
+        control:{yours:['Your output quality','How you communicate','Skills you are developing','Your next action'],notYours:['Company decisions','Economic conditions','Other people\'s opinions']},
+        worstCase:'You lose the job or opportunity. Most people who lose jobs find new ones. This is recoverable.',
+        realityCheck:[
+          {tag:'exaggeration',text:'"Always" and "never" are rarely true in professional contexts. One bad moment is not your entire career.'},
+          {tag:'assumption',text:'You are assuming negative outcomes without direct evidence that they are coming.'},
+          {tag:'bias',text:'You are catastrophising — jumping to the worst conclusion without checking intermediate ones.'},
+        ],
+        solutions:[
+          {step:'TODAY',action:'Name the specific thing you are actually afraid of — write it down',why:'Vague fear is paralysing. Specific fear is manageable.',script:null},
+          {step:'THIS WEEK',action:'Take one concrete action toward the situation',why:'Motion defeats anxiety faster than any amount of thinking.',script:null},
+          {step:'IF NEEDED',action:'Talk to someone — mentor, colleague, or friend — who has been here',why:'Outside perspective breaks the spiral. You do not have to figure this out alone.',script:null},
+        ],
+        brutalTruth:'You are suffering from a future that has not happened yet. Deal with what is actually in front of you today.',
+        comfort:null,
+        pattern:'career'
+      }
+    ]
+  },
+
+  fear: {
+    keywords:['what if','scared','afraid','fear','anxious','anxiety','panic','worried','future','something bad','terrible','disaster','fail','mistake','wrong decision','regret','too late','never','everything','nothing will'],
+    variants:[
+      {
+        situation:'You are stuck in a "what if" spiral about something that hasn\'t happened yet.',
+        validation:'Anxiety about the future is exhausting. Your brain is working overtime trying to protect you.',
+        control:{yours:['Your next action','How you prepare','Who you talk to'],notYours:['The outcome','Other people\'s reactions','Circumstances outside your control']},
+        worstCase:'The thing you fear happens. You cope. You adapt. You move forward. You always have before.',
+        realityCheck:[
+          {tag:'exaggeration',text:'"What if" thinking inflates the probability of bad outcomes. Your anxious brain is not a reliable forecaster.'},
+          {tag:'bias',text:'You are ignoring all the times your anxiety predicted disaster and it didn\'t happen.'},
+          {tag:'assumption',text:'You are assuming that if the bad thing happens, you won\'t be able to handle it. That assumption is almost always wrong.'},
+        ],
+        solutions:[
+          {step:'FIRST',action:'Write down the specific worst case — in one sentence',why:'Unnamed fears are bigger than named ones.',script:null},
+          {step:'THEN',action:'Ask: "What would I actually do if that happened?"',why:'You will find you have more options than the anxious brain admits.',script:null},
+          {step:'NOW',action:'Do one small thing toward the situation',why:'Action is the fastest antidote to fear-based paralysis.',script:null},
+        ],
+        brutalTruth:'You are suffering from something that hasn\'t happened. You are choosing an imaginary bad future over the actual present.',
+        comfort:null,
+        pattern:'fear'
+      }
+    ]
+  },
+
+  selfDoubt: {
+    keywords:['not good enough','stupid','dumb','worthless','hate myself','failure','loser','nobody likes','no one cares','what\'s wrong with me','terrible person','can\'t do anything','useless','pointless','don\'t deserve','i always mess up','i never get'],
+    variants:[
+      {
+        situation:'You are in a self-critical spiral, treating a feeling about yourself as a fact about yourself.',
+        validation:'The voice that says you\'re not enough is loudest when you\'re already struggling. It does not mean it\'s right.',
+        control:{yours:['The story you tell yourself','Whether you take action despite the feeling','Who you talk to'],notYours:['How you feel right now','What already happened','Others\' opinions']},
+        worstCase:'You continue to feel this way for a while longer. Feelings pass. They always do.',
+        realityCheck:[
+          {tag:'exaggeration',text:'"Always" and "never" — "I always mess up" — are cognitive distortions. They feel true. They are not accurate.'},
+          {tag:'bias',text:'You are applying a standard to yourself you would never apply to someone you love.'},
+          {tag:'assumption',text:'"I feel worthless" and "I am worthless" are completely different statements. One is a feeling. One is a lie.'},
+        ],
+        solutions:[
+          {step:'RIGHT NOW',action:'Separate the feeling from the fact',why:'"I feel like I\'m failing" is not the same as "I am failing."',script:null},
+          {step:'TODAY',action:'Do one thing you are actually competent at — anything',why:'Action rebuilds self-trust faster than any amount of thinking.',script:null},
+          {step:'IF THIS IS ONGOING',action:'Talk to someone you trust about how you\'ve been feeling',why:'Self-doubt in isolation grows. Saying it out loud to a safe person shrinks it.',script:'"I\'ve been really hard on myself lately and I don\'t think it\'s helping."'},
+        ],
+        brutalTruth:'The harshest critic in your life right now is inside your own head. That voice is not objective. It is not truth. It is fear wearing the mask of honesty.',
+        comfort:'You are not what your worst thoughts say you are.',
+        pattern:'assumption'
+      }
+    ]
+  },
+
+  default: {
+    variants:[
+      {
+        situation:'Something is genuinely bothering you and your mind is running in circles trying to solve it.',
+        validation:'The fact that this is taking up this much space in your head means it matters to you. That\'s worth taking seriously.',
+        control:{yours:['Your next action','How you respond to the situation','Who you choose to talk to'],notYours:['The outcome','Other people\'s behaviour','What has already happened']},
+        worstCase:'The situation goes badly. You adapt. That is what people do.',
+        realityCheck:[
+          {tag:'assumption',text:'You are treating an uncertain situation as if the outcome is already determined to be bad.'},
+          {tag:'bias',text:'Overthinking feels productive. It almost never is. It is usually avoidance dressed up as problem-solving.'},
+          {tag:'fact',text:'More analysis beyond a certain point makes decisions worse, not better.'},
+        ],
+        solutions:[
+          {step:'STEP 1',action:'State the actual problem in one sentence',why:'If you can\'t name it clearly, you can\'t solve it clearly.',script:null},
+          {step:'STEP 2',action:'List the two or three options actually available to you',why:'Overthinking expands the problem. Options make it manageable.',script:null},
+          {step:'STEP 3',action:'Take the smallest possible action toward the best option',why:'Any movement forward beats perfect analysis that never starts.',script:null},
+        ],
+        brutalTruth:'You already know what you probably need to do. You are thinking more to avoid doing it.',
+        comfort:null,
+        pattern:'other'
+      }
+    ]
+  }
+};
+
+function detectCategory(text){
+  const lower = text.toLowerCase();
+  const scores = {};
+  for(const [cat, rule] of Object.entries(RULES)){
+    if(!rule.keywords) continue;
+    scores[cat] = rule.keywords.filter(kw => lower.includes(kw)).length;
+  }
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const best = sorted[0];
+  return (best && best[1] > 0) ? RULES[best[0]] : RULES.default;
+}
+
+function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+function buildAnalysis(text, mode){
+  const rule = detectCategory(text);
+  const variant = pick(rule.variants);
+  return { ...variant, mode };
+}
+
+// ════════════════════════════════════════════════════
+//  OVERTHINKING KILLER UI
+// ════════════════════════════════════════════════════
+let okMode = 'standard';
+let sessionCount = 0;
+
+const textarea   = document.getElementById('thoughtInput');
+const charCount  = document.getElementById('charCount');
+const analyzeBtn = document.getElementById('analyzeBtn');
+
+textarea.addEventListener('input',()=>{ charCount.textContent = textarea.value.length + ' characters'; });
+
+document.querySelectorAll('.mode-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    okMode = btn.dataset.mode;
+  });
+});
+
+analyzeBtn.addEventListener('click', analyze);
+textarea.addEventListener('keydown', e=>{ if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)) analyze(); });
+
+function toggleCard(card){
+  card.classList.toggle('collapsed');
+  const t = card.querySelector('.card-tog');
+  if(t) t.textContent = card.classList.contains('collapsed') ? '▾' : '▴';
+}
+
+function analyze(){
+  const input = textarea.value.trim();
+  if(!input || input.length < 10){ showErr('Write at least a sentence.'); return; }
+  hideErr();
+  setLoading(true);
+  setTimeout(()=>{
+    try{
+      const result = buildAnalysis(input, okMode);
+      saveToSupabase(input, okMode, result);
+      sessionCount++;
+      renderOutput(result, input, okMode);
+    } catch(e){ showErr('Something went wrong: '+e.message); }
+    finally{ setLoading(false); }
+  }, 700);
+}
+
+function renderOutput(data, input, mode){
+  const out  = document.getElementById('okOut');
+  const grid = document.getElementById('cardsGrid');
+  const now  = new Date();
+
+  document.getElementById('okMeta').innerHTML =
+    now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}) +
+    '<br>' + input.split(/\s+/).length + ' words' +
+    (mode==='brutal' ? ' <span class="brutal-tag">BRUTAL</span>' : '');
+
+  grid.innerHTML = '';
+
+  // Card 1 — Situation + Validation
+  let c1body = `<p class="situation-txt">${esc(data.situation)}</p>`;
+  if(data.validation) c1body += `<div class="emotion-validation" style="margin-top:14px">${esc(data.validation)}</div>`;
+  grid.appendChild(makeCard('01','Situation',c1body));
+
+  // Card 2 — Control
+  const yl = data.control.yours.map(i=>`<li>${esc(i)}</li>`).join('');
+  const nl = data.control.notYours.map(i=>`<li>${esc(i)}</li>`).join('');
+  grid.appendChild(makeCard('02',"What You Control vs Don't",`
+    <div class="ctrl-grid">
+      <div class="ctrl-col yours"><div class="ctrl-col-lbl">Yours</div><ul class="ctrl-items">${yl}</ul></div>
+      <div class="ctrl-col theirs"><div class="ctrl-col-lbl">Not Yours</div><ul class="ctrl-items">${nl}</ul></div>
+    </div>`));
+
+  // Card 3 — Worst Case
+  grid.appendChild(makeCard('03','Worst Case (Realistic)',`<p class="worst-txt">${esc(data.worstCase)}</p>`));
+
+  // Card 4 — Reality Check
+  const ri = data.realityCheck.map(r=>`
+    <li class="reality-item">
+      <span class="rtag ${r.tag}">${r.tag}</span>
+      <span class="reality-txt">${esc(r.text)}</span>
+    </li>`).join('');
+  let rc = `<ul class="reality-items">${ri}</ul>`;
+  if(mode==='brutal'&&data.brutalTruth) rc += `<div class="brutal-callout">${esc(data.brutalTruth)}</div>`;
+  grid.appendChild(makeCard('04','Reality Check',rc));
+
+  // Card 5 — Solutions (key improvement)
+  const solItems = data.solutions.map((s,i)=>`
+    <li class="sol-item">
+      <span class="sol-step">${esc(s.step)}</span>
+      <div class="sol-action">${esc(s.action)}</div>
+      <div class="sol-why">${esc(s.why)}</div>
+      ${s.script ? `<div class="sol-script">${esc(s.script)}</div>` : ''}
+    </li>`).join('');
+  let solBody = `<ul class="solutions-list">${solItems}</ul>`;
+  if(data.comfort) solBody += `<div class="comfort-card"><p>${esc(data.comfort)}</p></div>`;
+  grid.appendChild(makeCard('05',`What To Actually Do`,solBody));
+
+  out.classList.add('visible');
+  out.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function makeCard(num, label, bodyHtml){
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.innerHTML = `
+    <div class="card-hdr" onclick="toggleCard(this.parentElement)">
+      <span class="card-num">${num}</span>
+      <span class="card-lbl">${label}</span>
+      <span class="card-tog">▴</span>
+    </div>
+    <div class="card-body">${bodyHtml}</div>`;
+  return div;
+}
+
+function setLoading(on){
+  document.getElementById('loadingBar').classList.toggle('active',on);
+  document.getElementById('loadingTxt').classList.toggle('active',on);
+  analyzeBtn.disabled = on;
+  analyzeBtn.textContent = on ? 'ANALYZING...' : 'ANALYZE';
+}
+function showErr(msg){ const e=document.getElementById('errBox'); e.textContent='ERROR // '+msg; e.classList.add('visible'); }
+function hideErr(){ document.getElementById('errBox').classList.remove('visible'); }
+
+function resetOK(){
+  if(textarea) textarea.value='';
+  if(charCount) charCount.textContent='0 characters';
+  const out=document.getElementById('okOut');
+  if(out) out.classList.remove('visible');
+  const grid=document.getElementById('cardsGrid');
+  if(grid) grid.innerHTML='';
+  hideErr();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ════════════════════════════════════════════════════
+//  SUPABASE
+// ════════════════════════════════════════════════════
+async function saveToSupabase(thought, mode, analysis){
+  try{
+    await fetch(SUPABASE_URL+'/rest/v1/thoughts',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},
+      body:JSON.stringify({thought,mode,analysis})
+    });
+  }catch(e){ console.warn('Supabase:',e.message); }
+}
+
+async function loadThoughts(){
+  const list=document.getElementById('thoughtsList');
+  list.innerHTML='<div class="dash-empty">Loading...</div>';
+  try{
+    const res=await fetch(SUPABASE_URL+'/rest/v1/thoughts?select=*&order=created_at.desc&limit=200',{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+    });
+    if(!res.ok) throw new Error('Failed');
+    const thoughts=await res.json();
+    const brutal=thoughts.filter(t=>t.mode==='brutal').length;
+    const today=thoughts.filter(t=>new Date(t.created_at).toDateString()===new Date().toDateString()).length;
+    document.getElementById('dashStats').innerHTML=`
+      <div class="dash-stat"><div class="dash-stat-num">${thoughts.length}</div><div class="dash-stat-lbl">Total</div></div>
+      <div class="dash-stat"><div class="dash-stat-num">${today}</div><div class="dash-stat-lbl">Today</div></div>
+      <div class="dash-stat"><div class="dash-stat-num">${brutal}</div><div class="dash-stat-lbl">Brutal</div></div>
+      <div class="dash-stat"><div class="dash-stat-num">${thoughts.length-brutal}</div><div class="dash-stat-lbl">Standard</div></div>`;
+    if(!thoughts.length){ list.innerHTML='<div class="dash-empty">No submissions yet.</div>'; return; }
+    list.innerHTML=thoughts.map(t=>{
+      const d=new Date(t.created_at);
+      const ts=d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})+' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+      const preview=t.thought.length>120?t.thought.slice(0,120)+'...':t.thought;
+      const an=t.analysis||{};
+      const acts=(an.solutions||[]).slice(0,3).map((a,j)=>`<div class="thought-action-item">0${j+1}. ${esc(a.action||a.step||'')}</div>`).join('');
+      return `<div class="thought-row" onclick="this.classList.toggle('expanded')">
+        <div class="thought-meta"><span class="thought-time">${ts}</span><span class="thought-mode-tag ${t.mode}">${t.mode}</span></div>
+        <div class="thought-preview">${esc(preview)}</div>
+        <div class="thought-full">
+          ${an.situation?`<div class="thought-situation">📌 ${esc(an.situation)}</div>`:''}
+          ${acts?`<div class="thought-actions-preview">${acts}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){ list.innerHTML=`<div class="dash-empty" style="color:var(--ok-red)">Error: ${e.message}</div>`; }
+}
+
+// ════════════════════════════════════════════════════
+//  HOST MODAL
+// ════════════════════════════════════════════════════
+function openModal(){ document.getElementById('modalOverlay').classList.add('visible'); document.getElementById('hostPassword').focus(); }
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('visible'); }
+function hostLogin(){
+  const pw=document.getElementById('hostPassword').value;
+  if(pw===HOST_PASSWORD){
+    document.getElementById('hostLogin').style.display='none';
+    document.getElementById('dashboard').classList.add('visible');
+    loadThoughts();
+  } else {
+    document.getElementById('loginError').classList.add('visible');
+    document.getElementById('hostPassword').value='';
+  }
+}
+document.getElementById('modalOverlay').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
+document.getElementById('hostPassword').addEventListener('keydown',e=>{ if(e.key==='Enter') hostLogin(); });
+
+// ════════════════════════════════════════════════════
+//  BLOOM LOGIC
+// ════════════════════════════════════════════════════
+let blMood=null, blSymptoms=new Set(), blIntensity=2;
+const INT_LABELS={1:'Mild',2:'Mild',3:'Moderate',4:'Strong',5:'Severe'};
+
+const MOOD_CARE={
+  anxious:{title:'Calming your anxiety',tips:[{t:'<strong>4-7-8 breathing</strong> — inhale 4s, hold 7s, exhale 8s. Repeat 3×'},{t:'<strong>Warm weighted blanket</strong> — deep pressure soothes the nervous system'},{t:'<strong>Limit screens</strong> for the next few hours'}],affirmation:'What you\'re feeling is real — hormones physically heighten anxiety. You are not overreacting. 💙'},
+  irritable:{title:'Easing that edge',tips:[{t:'<strong>Step outside 5 min</strong> — even a doorway counts'},{t:'<strong>Cold water on wrists</strong> — quick reset'},{t:'<strong>Text instead of talking</strong> if you need distance'}],affirmation:'Hormonal irritability is physiological, not a character flaw. 🌿'},
+  sad:{title:'Being kind to your sadness',tips:[{t:'<strong>Let yourself cry</strong> — it releases stress hormones'},{t:'<strong>Warm drink + cozy corner</strong>'},{t:'<strong>Reach out to someone safe</strong>'}],affirmation:'Sadness before or during your period is real. Be gentle. 🌸'},
+  numb:{title:'Gently coming back',tips:[{t:'<strong>Sensory grounding</strong> — hold something warm'},{t:'<strong>Slow walk with music</strong>'},{t:'<strong>One tiny pleasure</strong>'}],affirmation:'Feeling flat during your cycle is more common than people admit. 🤍'},
+  okay:{title:'Staying steady',tips:[{t:'<strong>Hydrate proactively</strong>'},{t:'<strong>Keep meals regular</strong>'}],affirmation:'Being okay is a real answer. 🌼'},
+  tired:{title:'Rest is the plan',tips:[{t:'<strong>20-min power nap</strong>'},{t:'<strong>Cancel non-essential things</strong>'},{t:'<strong>Legs up the wall</strong> — 10 min'}],affirmation:'Your body is doing extra work. Rest is the most sensible response. 🌙'}
+};
+
+const SYM_DATA={
+  cramps:{heat:[{t:'<strong>Hot water bag</strong> on lower abdomen — 20 min on, 10 off'},{t:'<strong>Warm bath</strong> — relaxes uterine muscles'}],food:[{t:'<strong>Dark chocolate 70%+</strong> — magnesium'},{t:'<strong>Banana</strong> — potassium'},{t:'<strong>Pumpkin seeds</strong> — magnesium'}],drink:[{t:'<strong>Warm ginger tea</strong> — reduces prostaglandins'},{t:'<strong>Chamomile tea</strong> — antispasmodic'}],avoid:['Cold drinks & ice cream','Coffee','Salty / processed food'],move:[{e:'🧘',n:'Child\'s Pose',d:'Hold 30 sec'},{e:'🌀',n:'Knees to Chest',d:'Rock gently'},{e:'💆',n:'Lower Back Rub',d:'Circular motion'}],message:'Warmth, water, and rest. Let your body be slow. 🌸'},
+  bloating:{heat:[{t:'<strong>Warm compress</strong> on abdomen'}],food:[{t:'<strong>Fennel seeds</strong> — chew a pinch or brew as tea'},{t:'<strong>Cucumber / celery</strong>'}],drink:[{t:'<strong>Fennel tea</strong> — best natural de-bloat'},{t:'<strong>Plain warm water</strong> — sip slowly'}],avoid:['Carbonated drinks','Cruciferous veggies','Excess salt'],move:[{e:'🚶',n:'Gentle Walk',d:'5–10 min'},{e:'🌀',n:'Wind-Relief Pose',d:'Hug knees in'},{e:'🧘',n:'Seated Twist',d:'Both sides'}],message:'Bloating is temporary. Sip warm water, move a little. 💛'},
+  mood:{heat:[{t:'<strong>Warm shower</strong> — resets your nervous system'}],food:[{t:'<strong>Dark chocolate</strong> — serotonin'},{t:'<strong>Walnuts / almonds</strong> — omega-3'}],drink:[{t:'<strong>Saffron milk</strong> — lifts mood'},{t:'<strong>Lemon water</strong>'}],avoid:['Alcohol','Excess caffeine','Doom-scrolling'],move:[{e:'🎵',n:'Dance Break',d:'3 songs'},{e:'🌿',n:'Walk Outside',d:'10 min sun'},{e:'✍️',n:'Journal',d:'Write freely'}],message:'Your feelings are valid. Be as gentle as you\'d be with someone you love. 🤍'},
+  headache:{heat:[{t:'<strong>Cold pack on forehead</strong> or warm on neck'},{t:'<strong>Dark quiet room</strong> — screens off 20 min'}],food:[{t:'<strong>Almonds</strong> — magnesium'},{t:'<strong>Watermelon</strong> — hydration'}],drink:[{t:'<strong>Water immediately</strong>'},{t:'<strong>Electrolyte drink</strong>'}],avoid:['Coffee after 2nd cup','Bright screens','Skipping meals'],move:[{e:'💆',n:'Temple Massage',d:'Gentle circles'},{e:'🌬️',n:'4-7-8 Breathing',d:'3 rounds'},{e:'🛏️',n:'Lie Down',d:'Eyes closed'}],message:'Drink water. Dim the lights. 10 minutes with eyes closed shifts things. 💙'},
+  fatigue:{heat:[{t:'<strong>Warm herbal tea</strong> — not caffeinated'}],food:[{t:'<strong>Iron-rich foods</strong> — spinach, lentils, red meat'},{t:'<strong>Complex carbs</strong> — oats, sweet potato'}],drink:[{t:'<strong>Water first</strong> — dehydration mimics fatigue'},{t:'<strong>Green tea</strong> — gentle energy'}],avoid:['Heavy sugary foods','Energy drinks','Skipping meals'],move:[{e:'🌿',n:'Gentle Stretch',d:'5 min'},{e:'🚶',n:'Short Walk',d:'10 min outside'},{e:'🛏️',n:'Power Nap',d:'20 min max'}],message:'Low energy during your period is your body asking for something. Listen to it. 🍂'},
+  backpain:{heat:[{t:'<strong>Heating pad on lower back</strong> — 20 min on, 10 off'},{t:'<strong>Warm shower directed at back</strong>'}],food:[{t:'<strong>Turmeric milk</strong> — anti-inflammatory'},{t:'<strong>Ginger</strong> — reduces muscle tension'}],drink:[{t:'<strong>Warm water</strong> — hydration relaxes muscles'},{t:'<strong>Ginger tea</strong>'}],avoid:['Sitting in one position too long','High heels','Lifting heavy things'],move:[{e:'🧘',n:'Cat-Cow Stretch',d:'10 slow rounds'},{e:'🌀',n:'Child\'s Pose',d:'30–60 sec'},{e:'💆',n:'Hip Circles',d:'Standing, 10 each side'}],message:'Your lower back carries more tension during your period. Be gentle with it. 🪨'}
+};
+
+function pickMood(btn){
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('picked'));
+  btn.classList.add('picked');
+  blMood = btn.dataset.mood;
+  document.getElementById('mood-next-btn').disabled = false;
+}
+function skipMood(){ blMood=null; goToSymptoms(); }
+function goToSymptoms(){
+  document.getElementById('panel-mood').classList.remove('active');
+  document.getElementById('panel-sym').classList.add('active');
+  document.getElementById('dot0').classList.replace('active','done');
+  document.getElementById('dot1').classList.add('active');
+}
+function backToMood(){
+  document.getElementById('panel-sym').classList.remove('active');
+  document.getElementById('panel-mood').classList.add('active');
+  document.getElementById('dot1').classList.remove('active');
+  document.getElementById('dot0').classList.replace('done','active');
+}
+function toggleSym(btn){
+  btn.classList.toggle('on');
+  const s=btn.dataset.sym;
+  if(blSymptoms.has(s)) blSymptoms.delete(s); else blSymptoms.add(s);
+  document.getElementById('plan-btn').disabled = blSymptoms.size===0;
+}
+function updateInt(el){
+  blIntensity=+el.value;
+  document.getElementById('int-display').textContent=INT_LABELS[blIntensity];
+  const pct=((blIntensity-1)/4*100)+'%';
+  el.style.setProperty('--v',pct);
+}
+
+function buildPlan(){
+  document.getElementById('panel-sym').classList.remove('active');
+  const pp=document.getElementById('panel-plan');
+  pp.classList.add('active');
+  document.getElementById('dot1').classList.replace('active','done');
+  document.getElementById('dot2').classList.add('active');
+
+  let html='';
+  const moodLabel = blMood ? blMood.charAt(0).toUpperCase()+blMood.slice(1) : 'Your';
+  html+=`<div class="plan-hero">
+    <span class="mood-badge">${moodLabel} Mood</span>
+    <div class="plan-title-bl">Your Comfort Plan 🌸</div>
+    <div class="plan-sub">Based on what you selected — intensity: <strong>${INT_LABELS[blIntensity]}</strong></div>
+  </div>`;
+
+  if(blMood && MOOD_CARE[blMood]){
+    const mc=MOOD_CARE[blMood];
+    html+=`<div class="mood-affirmation"><p>${mc.affirmation}</p></div>`;
+    html+=`<div class="plan-card"><div class="pch"><div class="pci mood-care">💛</div><div class="pct">${mc.title}</div></div><div class="bl-items">`;
+    mc.tips.forEach(t=>{ html+=`<div class="bl-item"><div class="bl-dot"></div><div>${t.t}</div></div>`; });
+    html+=`</div></div>`;
+  }
+
+  const primarySym = ['cramps','backpain','headache','bloating','fatigue','mood'].find(s=>blSymptoms.has(s)) || [...blSymptoms][0];
+
+  blSymptoms.forEach(sym=>{
+    if(!SYM_DATA[sym]) return;
+    const d=SYM_DATA[sym];
+    html+=`<div class="plan-card"><div class="pch"><div class="pci heat">🔥</div><div class="pct">Heat Therapy</div></div><div class="bl-items">`;
+    d.heat.forEach(i=>{ html+=`<div class="bl-item"><div class="bl-dot"></div><div>${i.t}</div></div>`; });
+    html+=`</div></div>`;
+    html+=`<div class="plan-card"><div class="pch"><div class="pci food">🥗</div><div class="pct">Food That Helps</div></div><div class="bl-items">`;
+    d.food.forEach(i=>{ html+=`<div class="bl-item"><div class="bl-dot"></div><div>${i.t}</div></div>`; });
+    html+=`</div></div>`;
+    html+=`<div class="plan-card"><div class="pch"><div class="pci drink">🫖</div><div class="pct">What to Drink</div></div><div class="bl-items">`;
+    d.drink.forEach(i=>{ html+=`<div class="bl-item"><div class="bl-dot"></div><div>${i.t}</div></div>`; });
+    html+=`</div></div>`;
+    html+=`<div class="plan-card"><div class="pch"><div class="pci avoid">🚫</div><div class="pct">Avoid Today</div></div><div class="bl-items">`;
+    d.avoid.forEach(i=>{ html+=`<div class="bl-item bad"><div class="bl-dot"></div><div>${i}</div></div>`; });
+    html+=`</div></div>`;
+    if(d.move){
+      html+=`<div class="plan-card"><div class="pch"><div class="pci move">🕊️</div><div class="pct">Gentle Movement</div></div><div class="stretch-row">`;
+      d.move.forEach(m=>{ html+=`<div class="scard"><span>${m.e}</span><strong>${m.n}</strong>${m.d}</div>`; });
+      html+=`</div></div>`;
+    }
+    if(d.message){
+      html+=`<div class="cmsg"><p>${d.message}</p></div>`;
+    }
+  });
+
+  if(blIntensity>=4){
+    html+=`<div style="background:rgba(220,80,80,.09);border:1px solid rgba(220,80,80,.22);border-radius:12px;padding:11px 15px;margin-bottom:18px;font-size:.82rem;color:#d09090;line-height:1.5">
+      <strong style="color:#f0a0a0">Intensity is high.</strong> If pain is severe and unmanageable, please consider speaking to a doctor or pharmacist. You deserve proper care.
+    </div>`;
+  }
+
+  html+=`<div class="bl-footer"><button class="bl-btn-outline" onclick="resetBloom()">↺ Start again</button></div>`;
+  pp.innerHTML=html;
+  pp.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function resetBloom(){
+  blMood=null; blSymptoms=new Set(); blIntensity=2;
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('picked'));
+  document.querySelectorAll('.sym-btn').forEach(b=>b.classList.remove('on'));
+  ['panel-mood','panel-sym','panel-plan'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById('panel-mood').classList.add('active');
+  document.getElementById('mood-next-btn').disabled=true;
+  document.getElementById('plan-btn').disabled=true;
+  document.getElementById('panel-plan').innerHTML='';
+  ['dot0','dot1','dot2'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    el.className='bl-step-dot'+(i===0?' active':'');
+  });
+  const sl=document.getElementById('int-slider');
+  if(sl){ sl.value=2; sl.style.setProperty('--v','25%'); }
+  document.getElementById('int-display').textContent='Mild';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ════════════════════════════════════════════════════
+//  UTILS
+// ════════════════════════════════════════════════════
+function esc(str){
+  if(!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
